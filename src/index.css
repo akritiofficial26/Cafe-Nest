@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-cream text-espresso font-body;
+}
+
+h1, h2, h3, h4 {
+  @apply font-display;
+}
+
+/* Twig-style divider, echoes the nest motif in the logo */
+.twig-divider {
+  height: 14px;
+  background-repeat: repeat-x;
+  background-size: 34px 14px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='14' viewBox='0 0 34 14'%3E%3Cpath d='M1 7 Q9 1 17 7 T33 7' stroke='%237A5238' stroke-width='1.4' fill='none' stroke-linecap='round' opacity='0.55'/%3E%3C/svg%3E");
+  opacity: 0.9;
+}
+
+/* visible focus ring for accessibility */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid #4B5A3A;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
