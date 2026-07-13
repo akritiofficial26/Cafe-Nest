@@ -11,7 +11,7 @@ A minimal, coffee-and-mocha-green themed café website with Home, About, Shop, a
 ## Run locally
 ```bash
 npm install
-npm run dev
+npm start
 ```
 Open the printed local URL (usually http://localhost:5173).
 
