@@ -9,7 +9,7 @@ const milestones = [
 
 export default function About() {
   return (
-    <div className="max-w-4xl mx-auto px-5 sm:px-8 py-16">
+    <div className="max-w-7xl mx-auto px-2 sm:px-3 py-16">
       <p className="uppercase text-xs tracking-[0.2em] text-mocha-green font-semibold mb-4">Our story</p>
       <h1 className="font-display text-4xl text-espresso mb-6">Built like a nest, one twig at a time.</h1>
       <p className="text-espresso-light/90 leading-relaxed max-w-2xl mb-6">

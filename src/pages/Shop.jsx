@@ -13,7 +13,7 @@ export default function Shop() {
     active === 'All' ? products : products.filter((p) => p.category === active)
 
   return (
-    <div className="max-w-6xl mx-auto px-5 sm:px-8 py-16">
+    <div className="max-w-7xl mx-auto px-2 sm:px-3 py-16">
       <p className="uppercase text-xs tracking-[0.2em] text-mocha-green font-semibold mb-4">Menu</p>
       <h1 className="font-display text-4xl text-espresso mb-3">Everything on the counter.</h1>
       <p className="text-espresso-light/85 max-w-xl mb-10">

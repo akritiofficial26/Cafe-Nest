@@ -37,7 +37,7 @@ const testimonials = [
 const galleryItems = ['Morning pour', 'Latte art', 'Beans ready', 'Quiet table']
 
 export default function Home() {
-  const featured = products.slice(0, 3)
+  const featured = products.slice(0, 4)
 
   return (
     <div>
@@ -80,7 +80,7 @@ export default function Home() {
           </Link>
         </div>
         
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {featured.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}
