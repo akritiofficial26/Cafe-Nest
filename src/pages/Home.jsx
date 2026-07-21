@@ -41,25 +41,25 @@ export default function Home() {
 
   return (
     <div>
-      <section id="home" className="max-w-6xl mx-auto px-5 sm:px-8 pt-14 sm:pt-20 pb-14 lg:pb-18 grid lg:grid-cols-[1.05fr_0.95fr] gap-12 items-center">
+      <section id="home" className="max-w-7xl mx-auto px-2 sm:px-3 pt-14 sm:pt-20 pb-14 lg:pb-18 grid lg:grid-cols-[1.05fr_0.95fr] gap-12 items-center">
         <div className="animate-rise max-w-2xl">
-          <p className="font-display italic text-3xl sm:text-4xl text-sand mb-4">Best Coffee</p>
-          <h1 className="font-body font-extrabold text-4xl sm:text-5xl lg:text-6xl leading-[1.05] text-espresso max-w-xl mb-5">
+          <p className="font-display italic text-2xl sm:text-3xl text-sand mb-4">Best Coffee</p>
+          <h1 className="font-body font-extrabold text-3xl sm:text-4xl lg:text-5xl leading-[1.05] text-espresso max-w-xl mb-5">
             Make your day great with our special coffee!
           </h1>
-          <p className="text-espresso-light/90 text-base sm:text-lg max-w-lg mb-8 leading-relaxed">
+          <p className="text-espresso-light/90 text-sm sm:text-base max-w-lg mb-8 leading-relaxed">
             Welcome to our coffee paradise, where every bean tells a story and every cup sparks joy.
           </p>
           <div className="flex flex-wrap gap-4 items-center">
             <Link
               to="/shop"
-              className="px-6 py-3 rounded-full bg-sand text-espresso font-semibold hover:bg-coffee-light transition-colors"
+              className="px-6 py-3 rounded-full bg-sand text-espresso text-sm font-semibold hover:bg-coffee-light transition-colors"
             >
               Order Now
             </Link>
             <Link
               to="/about"
-              className="px-6 py-3 rounded-full border border-coffee/40 text-espresso font-semibold hover:bg-coffee hover:text-cream hover:border-coffee transition-colors"
+              className="px-6 py-3 rounded-full border border-coffee/40 text-espresso text-sm font-semibold hover:bg-coffee hover:text-cream hover:border-coffee transition-colors"
             >
               Contact Us
             </Link>
@@ -70,15 +70,16 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="twig-divider max-w-6xl mx-auto" />
+      <div className="twig-divider max-w-7xl mx-auto px-4 sm:px-6" />
 
-      <section id="menu" className="max-w-6xl mx-auto px-5 sm:px-8 py-16">
+      <section id="menu" className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
         <div className="flex items-end justify-between gap-4 mb-8">
           <h2 className="font-display text-2xl sm:text-3xl text-espresso">Menu favorites</h2>
           <Link to="/shop" className="text-sm font-semibold text-mocha-green hover:underline">
             View full menu →
           </Link>
         </div>
+        
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {featured.map((p) => (
             <ProductCard key={p.id} product={p} />
@@ -87,7 +88,7 @@ export default function Home() {
       </section>
 
       <section id="testimonials" className="bg-cream-deep/60 py-16">
-        <div className="max-w-6xl mx-auto px-5 sm:px-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4">
           <div className="flex items-end justify-between gap-4 mb-8">
             <h2 className="font-display text-2xl sm:text-3xl text-espresso">Testimonials</h2>
             <span className="text-sm font-semibold text-mocha-green">What guests are saying</span>
@@ -103,7 +104,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="gallery" className="max-w-6xl mx-auto px-5 sm:px-8 py-16">
+      <section id="gallery" className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
         <div className="flex items-end justify-between gap-4 mb-8">
           <h2 className="font-display text-2xl sm:text-3xl text-espresso">Gallery</h2>
           <span className="text-sm font-semibold text-mocha-green">A closer look</span>

@@ -24,7 +24,12 @@ export default function ProductCard({ product }) {
   return (
     <div className="bg-cream-card rounded-3xl border border-coffee/10 shadow-sm hover:shadow-md transition-shadow p-4 flex flex-col">
       <div className="relative rounded-2xl bg-cream-deep aspect-[4/3] flex items-center justify-center mb-4 overflow-hidden">
-        <CupIcon className="w-20 h-20 text-coffee" />
+        <img
+          src="/hot-beverages.png"
+          alt={product.name}
+          className="h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-cream-deep/25 via-transparent to-transparent" />
         <span className="absolute top-3 left-3 flex items-center gap-1 bg-cream/90 rounded-full px-2.5 py-1 text-xs text-espresso">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="text-mocha-green">
             <path d="M12 21s-6.7-4.3-9.3-8.2C.9 9.7 1.8 6 5 4.7c2.1-.9 4.3-.1 5.6 1.6l1.4 1.8 1.4-1.8C14.7 4.6 16.9 3.8 19 4.7c3.2 1.3 4.1 5 2.3 8.1C18.7 16.7 12 21 12 21z" />
