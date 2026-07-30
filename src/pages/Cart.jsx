@@ -158,13 +158,7 @@ export default function Cart() {
               </button>
             </div>
 
-            <div className="rounded-[1.75rem] border border-mocha-green/15 bg-mocha-green/8 p-5 sm:p-6 text-sm text-espresso-light/85">
-              <p className="text-xs uppercase tracking-[0.22em] text-mocha-green font-semibold mb-3">Order note</p>
-              <p className="leading-relaxed">
-                Your cart is grouped into a single checkout card so you can review every item, adjust quantities,
-                and place the order without switching between sections.
-              </p>
-            </div>
+            
           </div>
         </div>
       </div>
