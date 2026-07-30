@@ -11,7 +11,7 @@ const links = [
   { type: 'anchor', href: '/#contact', label: 'Contact' },
 ]
 
-const linkClass = 'text-sm font-semibold tracking-[0.12em] transition-colors'
+const linkClass = 'px-3 py-2 rounded-full text-sm font-semibold tracking-[0.12em] transition-colors duration-200 hover:bg-mocha-green hover:text-cream'
 
 export default function Navbar() {
   const { totalCount } = useCart()
@@ -36,13 +36,13 @@ export default function Navbar() {
                 key={link.label}
                 to={link.to}
                 className={({ isActive }) =>
-                  `${linkClass} ${isActive ? 'text-mocha-green' : 'text-espresso-light hover:text-coffee'}`
+                  `${linkClass} ${isActive ? 'text-mocha-green' : 'text-espresso-light'}`
                 }
               >
                 {link.label}
               </NavLink>
             ) : (
-              <a key={link.label} href={link.href} className={`${linkClass} text-espresso-light hover:text-coffee`}>
+              <a key={link.label} href={link.href} className={`${linkClass} text-espresso-light`}>
                 {link.label}
               </a>
             )
