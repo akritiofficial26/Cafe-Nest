@@ -14,7 +14,7 @@ h1, h2, h3, h4 {
   @apply font-display;
 }
 
-/* Twig-style divider, echoes the nest motif in the logo */
+
 .twig-divider {
   height: 14px;
   background-repeat: repeat-x;
@@ -23,7 +23,7 @@ h1, h2, h3, h4 {
   opacity: 0.9;
 }
 
-/* visible focus ring for accessibility */
+
 a:focus-visible,
 button:focus-visible,
 input:focus-visible {

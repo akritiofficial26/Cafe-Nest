@@ -23,21 +23,36 @@ export default function Cart() {
   }
 
   const deliveryFee = 30
-  const grandTotal = totalPrice + deliveryFee
+  const serviceFee = 20
+  const tax = Math.round(totalPrice * 0.05)
+  const grandTotal = totalPrice + deliveryFee + serviceFee + tax
 
   return (
-    <div className="max-w-4xl mx-auto px-5 sm:px-8 py-16">
+    <div className="max-w-5xl mx-auto px-5 sm:px-8 py-16">
       <p className="uppercase text-xs tracking-[0.2em] text-mocha-green font-semibold mb-4">Your cart</p>
       <h1 className="font-display text-4xl text-espresso mb-10">Ready when you are.</h1>
 
-      <div className="space-y-4 mb-10">
+      <div className="overflow-hidden rounded-[2rem] border border-coffee/10 bg-cream-card shadow-[0_18px_50px_rgba(58,42,32,0.08)]">
+        <div className="border-b border-coffee/10 bg-gradient-to-r from-cream-card via-cream to-cream-deep px-6 py-5 sm:px-8">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <p className="text-xs uppercase tracking-[0.24em] text-mocha-green font-semibold mb-2">Cart details</p>
+              <h2 className="font-display text-2xl text-espresso">All products in one place</h2>
+            </div>
+            <div className="rounded-full border border-mocha-green/15 bg-mocha-green/8 px-4 py-2 text-sm font-semibold text-mocha-green">
+              {items.length} item{items.length > 1 ? 's' : ''}
+            </div>
+          </div>
+        </div>
+
+        <div className="divide-y divide-coffee/10">
         {items.map((item) => (
           <div
             key={item.id}
-            className="flex items-center gap-4 bg-cream-card border border-coffee/10 rounded-2xl p-4"
+            className="grid gap-5 p-6 sm:p-7 lg:grid-cols-[auto_1fr_auto_auto_auto] lg:items-center"
           >
-            <div className="h-16 w-16 rounded-xl bg-cream-deep flex items-center justify-center shrink-0">
-              <svg viewBox="0 0 64 64" className="w-8 h-8 text-coffee" fill="none">
+            <div className="h-20 w-20 rounded-2xl bg-cream-deep flex items-center justify-center shrink-0 shadow-inner">
+              <svg viewBox="0 0 64 64" className="w-10 h-10 text-coffee" fill="none">
                 <path
                   d="M14 24h30v18a10 10 0 0 1-10 10H24a10 10 0 0 1-10-10V24Z"
                   stroke="currentColor"
@@ -47,12 +62,20 @@ export default function Cart() {
               </svg>
             </div>
 
-            <div className="flex-1 min-w-0">
-              <h3 className="font-display text-lg text-espresso truncate">{item.name}</h3>
-              <p className="text-sm text-espresso-light/70">₹{item.price} each</p>
+            <div className="min-w-0 lg:pr-4">
+              <div className="flex flex-wrap items-center gap-2 mb-2">
+                <h3 className="font-display text-xl text-espresso">{item.name}</h3>
+                <span className="rounded-full bg-mocha-green/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-mocha-green">
+                  {item.category}
+                </span>
+              </div>
+              <p className="text-sm text-espresso-light/80 leading-relaxed mb-3 max-w-xl">
+                {item.description}
+              </p>
+              <p className="text-sm text-espresso-light/70">Unit price: ₹{item.price}</p>
             </div>
 
-            <div className="flex items-center gap-3 bg-cream-deep rounded-full px-1 py-1 shrink-0">
+            <div className="flex items-center gap-3 bg-cream-deep rounded-full px-1 py-1 shrink-0 justify-self-start lg:justify-self-center">
               <button
                 onClick={() => decrement(item.id)}
                 aria-label={`Decrease ${item.name} quantity`}
@@ -70,14 +93,15 @@ export default function Cart() {
               </button>
             </div>
 
-            <span className="font-display text-lg text-coffee-dark w-16 text-right shrink-0">
-              ₹{item.price * item.quantity}
-            </span>
+            <div className="text-left lg:text-right">
+              <p className="text-xs uppercase tracking-[0.18em] text-espresso-light/50 mb-1">Line total</p>
+              <span className="font-display text-xl text-coffee-dark shrink-0">₹{item.price * item.quantity}</span>
+            </div>
 
             <button
               onClick={() => removeItem(item.id)}
               aria-label={`Remove ${item.name} from cart`}
-              className="text-espresso-light/50 hover:text-coffee-dark transition-colors shrink-0"
+              className="justify-self-start lg:justify-self-end text-espresso-light/50 hover:text-coffee-dark transition-colors"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                 <path
@@ -90,24 +114,59 @@ export default function Cart() {
             </button>
           </div>
         ))}
-      </div>
+        </div>
 
-      <div className="bg-cream-deep/60 rounded-2xl p-6 max-w-md ml-auto">
-        <div className="flex justify-between text-sm text-espresso-light/85 mb-2">
-          <span>Subtotal</span>
-          <span>₹{totalPrice}</span>
+        <div className="border-t border-coffee/10 bg-cream-deep/45 px-6 py-6 sm:px-8">
+          <div className="grid gap-8 lg:grid-cols-[1fr_24rem] lg:items-start">
+            <div className="rounded-[1.75rem] border border-coffee/10 bg-cream-card p-5 sm:p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.22em] text-mocha-green font-semibold mb-2">Bill summary</p>
+                  <h3 className="font-display text-2xl text-espresso">Checkout details</h3>
+                </div>
+                <span className="rounded-full bg-sand/20 px-3 py-1 text-xs font-semibold text-coffee-dark">
+                  Pay at checkout
+                </span>
+              </div>
+
+              <div className="space-y-3 text-sm text-espresso-light/85">
+                <div className="flex justify-between gap-4">
+                  <span>Subtotal</span>
+                  <span>₹{totalPrice}</span>
+                </div>
+                <div className="flex justify-between gap-4">
+                  <span>Delivery fee</span>
+                  <span>₹{deliveryFee}</span>
+                </div>
+                <div className="flex justify-between gap-4">
+                  <span>Service fee</span>
+                  <span>₹{serviceFee}</span>
+                </div>
+                <div className="flex justify-between gap-4">
+                  <span>Tax</span>
+                  <span>₹{tax}</span>
+                </div>
+              </div>
+
+              <div className="flex justify-between font-display text-xl text-espresso border-t border-coffee/15 pt-4 mt-5 mb-6">
+                <span>Total</span>
+                <span>₹{grandTotal}</span>
+              </div>
+
+              <button className="w-full py-3.5 rounded-full bg-mocha-green text-cream font-semibold hover:bg-mocha-green-dark transition-colors">
+                Checkout
+              </button>
+            </div>
+
+            <div className="rounded-[1.75rem] border border-mocha-green/15 bg-mocha-green/8 p-5 sm:p-6 text-sm text-espresso-light/85">
+              <p className="text-xs uppercase tracking-[0.22em] text-mocha-green font-semibold mb-3">Order note</p>
+              <p className="leading-relaxed">
+                Your cart is grouped into a single checkout card so you can review every item, adjust quantities,
+                and place the order without switching between sections.
+              </p>
+            </div>
+          </div>
         </div>
-        <div className="flex justify-between text-sm text-espresso-light/85 mb-4">
-          <span>Delivery</span>
-          <span>₹{deliveryFee}</span>
-        </div>
-        <div className="flex justify-between font-display text-xl text-espresso border-t border-coffee/15 pt-4 mb-6">
-          <span>Total</span>
-          <span>₹{grandTotal}</span>
-        </div>
-        <button className="w-full py-3 rounded-full bg-mocha-green text-cream font-semibold hover:bg-mocha-green-dark transition-colors">
-          Checkout
-        </button>
       </div>
     </div>
   )
