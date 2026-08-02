@@ -157,8 +157,7 @@ export default function Cart() {
                 Checkout
               </button>
             </div>
-
-            
+           
           </div>
         </div>
       </div>
