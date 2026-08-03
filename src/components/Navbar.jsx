@@ -22,9 +22,9 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-40 bg-cream/95 backdrop-blur border-b border-coffee/15">
       <nav className="max-w-7xl mx-auto flex items-center justify-between gap-6 px-2 sm:px-3 h-20">
-        <Link to="/" className="flex items-center gap-3 shrink-0" onClick={closeMenu}>
-          <img src="/logo.png" alt="Coffee logo" className="h-10 w-10 rounded-full object-cover" />
-          <span className="font-body text-2xl sm:text-[1.7rem] font-extrabold text-espresso tracking-tight">
+        <Link to="/" className="flex items-center gap-0 shrink-0" onClick={closeMenu}>
+          <img src="/updated logo.png" alt="Coffee logo" className="h-16 w-16 sm:h-18 sm:w-18 rounded-full object-cover" />
+          <span className="font-body text-xl sm:text-[1.55rem] font-extrabold text-espresso tracking-tight leading-none -ml-2 sm:-ml-3">
             CafeNest
           </span>
         </Link>
