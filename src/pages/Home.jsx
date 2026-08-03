@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import products from '../data/products'
 import ProductCard from '../components/ProductCard'
+import testimonials from '../data/testimonials'
 
 function CoffeeIllustration() {
   return (
@@ -18,21 +19,6 @@ function CoffeeIllustration() {
     </div>
   )
 }
-
-const testimonials = [
-  {
-    title: 'Maya, regular guest',
-    text: 'The cup comes out smooth, balanced, and exactly the kind of coffee I want before work.',
-  },
-  {
-    title: 'Aman, weekend visitor',
-    text: 'The room feels calm and considered. It makes the whole coffee break feel slower in a good way.',
-  },
-  {
-    title: 'Sara, first-time guest',
-    text: 'The menu is easy to read and the presentation feels polished without losing the café warmth.',
-  },
-]
 
 const galleryItems = ['Morning pour', 'Latte art', 'Beans ready', 'Quiet table']
 
@@ -87,11 +73,13 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="testimonials" className="bg-cream-deep/60 py-16">
+      <section id="feedback" className="bg-cream-deep/60 py-16">
         <div className="max-w-7xl mx-auto px-3 sm:px-4">
           <div className="flex items-end justify-between gap-4 mb-8">
-            <h2 className="font-display text-2xl sm:text-3xl text-espresso">Testimonials</h2>
-            <span className="text-sm font-semibold text-mocha-green">What guests are saying</span>
+            <h2 className="font-display text-2xl sm:text-3xl text-espresso">Feedback</h2>
+            <Link to="/feedback" className="text-sm font-semibold text-mocha-green hover:underline">
+              View all feedback →
+            </Link>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {testimonials.map((item) => (

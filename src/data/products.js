@@ -6,6 +6,7 @@ const products = [
     price: 180,
     category: 'Espresso',
     loved: 412,
+    image: '/hot-beverages.png',
   },
   {
     id: 'p2',
@@ -14,6 +15,7 @@ const products = [
     price: 220,
     category: 'Espresso',
     loved: 356,
+    image: '/coffee-hero-section.png',
   },
   {
     id: 'p3',
@@ -22,6 +24,7 @@ const products = [
     price: 210,
     category: 'Cold',
     loved: 289,
+    image: '/cold-beverages.png',
   },
   {
     id: 'p4',
@@ -30,6 +33,7 @@ const products = [
     price: 240,
     category: 'Cold',
     loved: 198,
+    image: '/gallery-3.jpg',
   },
   {
     id: 'p5',
@@ -38,6 +42,7 @@ const products = [
     price: 200,
     category: 'Espresso',
     loved: 267,
+    image: '/gallery-1.jpg',
   },
   {
     id: 'p6',
@@ -46,6 +51,7 @@ const products = [
     price: 190,
     category: 'Tea',
     loved: 231,
+    image: '/about-image.jpg',
   },
   {
     id: 'p7',
@@ -54,6 +60,7 @@ const products = [
     price: 140,
     category: 'Bakes',
     loved: 175,
+    image: '/gallery-6.jpg',
   },
   {
     id: 'p8',
@@ -62,6 +69,7 @@ const products = [
     price: 110,
     category: 'Bakes',
     loved: 142,
+    image: '/special-combo.png',
   },
 ]
 

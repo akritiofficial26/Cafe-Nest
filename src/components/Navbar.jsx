@@ -6,7 +6,7 @@ const links = [
   { type: 'route', to: '/', label: 'Home' },
   { type: 'route', to: '/about', label: 'About' },
   { type: 'route', to: '/shop', label: 'Menu' },
-  { type: 'anchor', href: '/#testimonials', label: 'Testimonials' },
+  { type: 'route', to: '/feedback', label: 'Feedback' },
   { type: 'anchor', href: '/#gallery', label: 'Gallery' },
   { type: 'anchor', href: '/#contact', label: 'Contact' },
 ]
