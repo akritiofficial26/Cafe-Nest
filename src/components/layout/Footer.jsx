@@ -1,4 +1,5 @@
 import React from "react";
+import logoImg from '../../assets/updated logo.png'
 
 export default function Footer() {
   return (
@@ -15,7 +16,7 @@ export default function Footer() {
         <div className="self-start">
           <div className="flex items-center gap-2 mb-4">
             <img
-              src="/updated logo.png"
+              src={logoImg}
               alt="CafeNest logo"
               className="h-14 w-14 object-contain -translate-y-2"
             />

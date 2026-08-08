@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import products from '../services/product.service'
 import ProductCard from '../components/ui/ProductCard'
 import testimonials from '../services/testimonials.service'
+import heroImg from '../assets/coffee-hero-section.png'
 
 function CoffeeIllustration() {
   return (
@@ -12,7 +13,7 @@ function CoffeeIllustration() {
       <div className="absolute right-10 top-10 h-2.5 w-2.5 rounded-full bg-coffee/70" />
       <div className="absolute left-2 top-28 h-2 w-2 rounded-full bg-coffee-light/70" />
       <img
-        src="/coffee-hero-section.png"
+        src={heroImg}
         alt="Coffee hero section illustration"
         className="relative z-10 w-full drop-shadow-[0_20px_45px_rgba(58,42,32,0.16)]"
       />

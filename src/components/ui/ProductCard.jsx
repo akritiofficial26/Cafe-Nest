@@ -1,5 +1,6 @@
 import React from 'react'
 import { useCart } from '../../context/CartContext'
+import defaultImage from '../../assets/hot-beverages.png'
 
 function CupIcon({ className }) {
   return (
@@ -25,7 +26,7 @@ export default function ProductCard({ product }) {
     <div className="bg-cream-card rounded-3xl border border-coffee/10 shadow-sm hover:shadow-md transition-shadow p-4 flex flex-col">
       <div className="relative rounded-2xl bg-cream-deep aspect-[4/3] flex items-center justify-center mb-4 overflow-hidden">
         <img
-          src={product.image || '/hot-beverages.png'}
+          src={product.image || defaultImage}
           alt={product.name}
           className="h-full w-full object-cover"
         />
