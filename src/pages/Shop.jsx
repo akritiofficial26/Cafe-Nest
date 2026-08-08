@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
-import products from '../data/products'
-import ProductCard from '../components/ProductCard'
+import products from '../services/product.service'
+import ProductCard from '../components/ui/ProductCard'
 
 export default function Shop() {
   const categories = useMemo(

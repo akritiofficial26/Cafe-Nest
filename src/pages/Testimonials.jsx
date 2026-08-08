@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import testimonials from '../data/testimonials'
+import testimonials from '../services/testimonials.service'
 
 export default function Feedback() {
   return (

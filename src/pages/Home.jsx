@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import products from '../data/products'
-import ProductCard from '../components/ProductCard'
-import testimonials from '../data/testimonials'
+import products from '../services/product.service'
+import ProductCard from '../components/ui/ProductCard'
+import testimonials from '../services/testimonials.service'
 
 function CoffeeIllustration() {
   return (
