@@ -1,9 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import testimonials from '../services/testimonials.service'
+import ScrollReveal from "../components/animations/ScrollReveal";
 
 export default function Feedback() {
   return (
+    <ScrollReveal>
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
       <div className="max-w-3xl mb-10">
         <p className="text-xs uppercase tracking-[0.22em] text-mocha-green mb-3">Guest stories</p>
@@ -51,5 +53,6 @@ export default function Feedback() {
         </Link>
       </div>
     </div>
+    </ScrollReveal>
   )
 }
