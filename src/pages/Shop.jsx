@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import products from '../services/product.service'
 import ProductCard from '../components/ui/ProductCard'
+import { StaggerGrid, StaggerItem } from "../components/animations/StaggerGrid";
 
 export default function Shop() {
   const categories = useMemo(
@@ -36,11 +37,16 @@ export default function Shop() {
         ))}
       </div>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <StaggerGrid
+        key={active}
+        className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+      >
         {filtered.map((p) => (
-          <ProductCard key={p.id} product={p} />
+          <StaggerItem key={p.id}>
+            <ProductCard product={p} />
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerGrid>
     </div>
   )
 }

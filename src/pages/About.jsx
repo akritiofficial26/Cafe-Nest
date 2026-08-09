@@ -1,4 +1,6 @@
 import React from 'react'
+import ScrollReveal from "../components/animations/ScrollReveal";
+
 
 const milestones = [
   { year: '2019', text: 'Started as a two-table stall roasting beans in a rented kitchen.' },
@@ -9,6 +11,7 @@ const milestones = [
 
 export default function About() {
   return (
+    <ScrollReveal>
     <div className="max-w-7xl mx-auto px-2 sm:px-3 py-16">
       <p className="uppercase text-xs tracking-[0.2em] text-mocha-green font-semibold mb-4">Our story</p>
       <h1 className="font-display text-4xl text-espresso mb-6">Built like a nest, one twig at a time.</h1>
@@ -34,5 +37,6 @@ export default function About() {
         ))}
       </div>
     </div>
+  </ScrollReveal>
   )
 }
