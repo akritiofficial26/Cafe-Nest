@@ -5,6 +5,12 @@ import products from '../services/product.service'
 import ProductCard from '../components/ui/ProductCard'
 import testimonials from '../services/testimonials.service'
 import heroImg from '../assets/coffee-hero-section.png'
+import aboutImage from '../assets/about-image.jpg'
+import gallery1 from '../assets/gallery-1.jpg'
+import gallery3 from '../assets/gallery-3.jpg'
+import gallery6 from '../assets/gallery-6.jpg'
+import hotBeverages from '../assets/hot-beverages.png'
+import coldBeverages from '../assets/cold-beverages.png'
 import ScrollReveal from '../components/animations/ScrollReveal'
 import { StaggerGrid, StaggerItem } from '../components/animations/StaggerGrid'
 
@@ -24,7 +30,43 @@ function CoffeeIllustration() {
   )
 }
 
-const galleryItems = ['Morning pour', 'Latte art', 'Beans ready', 'Quiet table']
+const galleryItems = [
+  {
+    title: 'Morning pour',
+    text: 'The first cup of the day, served in warm light.',
+    image: heroImg,
+  },
+  {
+    title: 'Latte art close-up',
+    text: 'A hand-finished cup with a smooth, silky top.',
+    image: gallery1,
+  },
+  {
+    title: 'Room to breathe',
+    text: 'Soft corners and calm textures for slow conversations.',
+    image: aboutImage,
+  },
+  {
+    title: 'Fresh brew line-up',
+    text: 'Hot drinks waiting behind the counter before the rush.',
+    image: hotBeverages,
+  },
+  {
+    title: 'Chilled pause',
+    text: 'Cold drinks for the slower part of the afternoon.',
+    image: coldBeverages,
+  },
+  {
+    title: 'Shared table moments',
+    text: 'Coffee, notes, and a table that stays open a while.',
+    image: gallery3,
+  },
+  {
+    title: 'Warm pastry corner',
+    text: 'A quiet bite and one more cup before heading out.',
+    image: gallery6,
+  },
+]
 
 export default function Home() {
   const featured = products.slice(0, 4)
@@ -139,19 +181,25 @@ export default function Home() {
         <ScrollReveal>
           <div className="flex items-end justify-between gap-4 mb-8">
             <h2 className="font-display text-2xl sm:text-3xl text-espresso">Gallery</h2>
-            <span className="text-sm font-semibold text-mocha-green">A closer look</span>
+            <Link to="/gallery" className="text-sm font-semibold text-mocha-green hover:underline">
+              View more →
+            </Link>
           </div>
         </ScrollReveal>
         <StaggerGrid className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {galleryItems.map((item, index) => (
+          {galleryItems.slice(0, 4).map((item, index) => (
             <StaggerItem key={item}>
-              <div className="relative min-h-56 overflow-hidden rounded-[2rem] border border-coffee/10 bg-gradient-to-br from-cream-card via-cream to-cream-deep shadow-sm">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(201,168,118,0.25),_transparent_42%),radial-gradient(circle_at_bottom_right,_rgba(122,82,56,0.16),_transparent_38%)]" />
-                <div className="absolute left-5 top-5 h-12 w-12 rounded-full bg-sand/25 border border-sand/40" />
-                <div className="absolute right-4 bottom-4 h-20 w-20 rounded-full bg-coffee/10 border border-coffee/15" />
-                <div className="relative z-10 flex h-full flex-col justify-end p-5">
-                  <p className="text-xs uppercase tracking-[0.18em] text-mocha-green mb-2">0{index + 1}</p>
-                  <h3 className="font-display text-2xl text-espresso">{item}</h3>
+              <div className="group relative min-h-56 overflow-hidden rounded-[2rem] border border-coffee/10 bg-cream-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(58,42,32,0.12)]">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-espresso/78 via-espresso/20 to-transparent" />
+                <div className="relative z-10 flex h-full flex-col justify-end p-5 text-cream">
+                  <p className="text-xs uppercase tracking-[0.18em] text-sand mb-2">0{index + 1}</p>
+                  <h3 className="font-display text-2xl leading-tight">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-cream/82">{item.text}</p>
                 </div>
               </div>
             </StaggerItem>
