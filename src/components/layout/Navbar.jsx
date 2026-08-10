@@ -8,7 +8,7 @@ const links = [
   { type: 'route', to: '/about', label: 'About' },
   { type: 'route', to: '/shop', label: 'Menu' },
   { type: 'route', to: '/feedback', label: 'Feedback' },
-  { type: 'anchor', href: '/#gallery', label: 'Gallery' },
+  { type: 'route', to: '/gallery', label: 'Gallery' },
   { type: 'anchor', href: '/#contact', label: 'Contact' },
 ]
 
