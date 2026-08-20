@@ -1,6 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
+import Button from '../components/ui/Button'
+import QuantityStepper from '../components/ui/QuantityStepper'
+import { formatCurrency } from '../utils/formatCurrency'
+import { calculateBill } from '../utils/bill'
 
 export default function Cart() {
   const { items, increment, decrement, removeItem, totalPrice } = useCart()
@@ -12,20 +16,16 @@ export default function Cart() {
         <p className="text-espresso-light/80 mb-8">
           Nothing here yet — go pick something warm from the menu.
         </p>
-        <Link
-          to="/shop"
-          className="inline-block px-6 py-3 rounded-full bg-mocha-green text-cream font-semibold hover:bg-mocha-green-dark transition-colors"
-        >
+        <Button as={Link} to="/shop" variant="green" size="lg" className="inline-block">
           Browse the menu
-        </Link>
+        </Button>
       </div>
     )
   }
 
-  const deliveryFee = 30
-  const serviceFee = 20
-  const tax = Math.round(totalPrice * 0.05)
-  const grandTotal = totalPrice + deliveryFee + serviceFee + tax
+  // Defaults to delivery so these figures match what they always were; the
+  // customer can switch to pickup at checkout, which drops the delivery fee.
+  const bill = calculateBill(totalPrice)
 
   return (
     <div className="max-w-5xl mx-auto px-5 sm:px-8 py-16">
@@ -48,7 +48,7 @@ export default function Cart() {
         <div className="divide-y divide-coffee/10">
         {items.map((item) => (
           <div
-            key={item.id}
+            key={item.key}
             className="grid gap-5 p-6 sm:p-7 lg:grid-cols-[auto_1fr_auto_auto_auto] lg:items-center"
           >
             <div className="h-20 w-20 rounded-2xl bg-cream-deep flex items-center justify-center shrink-0 shadow-inner">
@@ -68,38 +68,36 @@ export default function Cart() {
                 <span className="rounded-full bg-mocha-green/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-mocha-green">
                   {item.category}
                 </span>
+                {item.size && (
+                  <span className="rounded-full bg-sand/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-coffee-dark">
+                    {item.size}
+                  </span>
+                )}
               </div>
               <p className="text-sm text-espresso-light/80 leading-relaxed mb-3 max-w-xl">
                 {item.description}
               </p>
-              <p className="text-sm text-espresso-light/70">Unit price: ₹{item.price}</p>
+              <p className="text-sm text-espresso-light/70">Unit price: {formatCurrency(item.price)}</p>
             </div>
 
-            <div className="flex items-center gap-3 bg-cream-deep rounded-full px-1 py-1 shrink-0 justify-self-start lg:justify-self-center">
-              <button
-                onClick={() => decrement(item.id)}
-                aria-label={`Decrease ${item.name} quantity`}
-                className="h-7 w-7 flex items-center justify-center rounded-full bg-coffee text-cream hover:bg-coffee-dark transition-colors"
-              >
-                –
-              </button>
-              <span className="text-sm font-semibold text-espresso w-4 text-center">{item.quantity}</span>
-              <button
-                onClick={() => increment(item.id)}
-                aria-label={`Increase ${item.name} quantity`}
-                className="h-7 w-7 flex items-center justify-center rounded-full bg-coffee text-cream hover:bg-coffee-dark transition-colors"
-              >
-                +
-              </button>
-            </div>
+            <QuantityStepper
+              quantity={item.quantity}
+              label={item.name}
+              onIncrement={() => increment(item.key)}
+              onDecrement={() => decrement(item.key)}
+              className="shrink-0 justify-self-start lg:justify-self-center"
+            />
 
             <div className="text-left lg:text-right">
               <p className="text-xs uppercase tracking-[0.18em] text-espresso-light/50 mb-1">Line total</p>
-              <span className="font-display text-xl text-coffee-dark shrink-0">₹{item.price * item.quantity}</span>
+              <span className="font-display text-xl text-coffee-dark shrink-0">
+                {formatCurrency(item.price * item.quantity)}
+              </span>
             </div>
 
             <button
-              onClick={() => removeItem(item.id)}
+              type="button"
+              onClick={() => removeItem(item.key)}
               aria-label={`Remove ${item.name} from cart`}
               className="justify-self-start lg:justify-self-end text-espresso-light/50 hover:text-coffee-dark transition-colors"
             >
@@ -132,30 +130,30 @@ export default function Cart() {
               <div className="space-y-3 text-sm text-espresso-light/85">
                 <div className="flex justify-between gap-4">
                   <span>Subtotal</span>
-                  <span>₹{totalPrice}</span>
+                  <span>{formatCurrency(bill.subtotal)}</span>
                 </div>
                 <div className="flex justify-between gap-4">
                   <span>Delivery fee</span>
-                  <span>₹{deliveryFee}</span>
+                  <span>{formatCurrency(bill.deliveryFee)}</span>
                 </div>
                 <div className="flex justify-between gap-4">
                   <span>Service fee</span>
-                  <span>₹{serviceFee}</span>
+                  <span>{formatCurrency(bill.serviceFee)}</span>
                 </div>
                 <div className="flex justify-between gap-4">
                   <span>Tax</span>
-                  <span>₹{tax}</span>
+                  <span>{formatCurrency(bill.tax)}</span>
                 </div>
               </div>
 
               <div className="flex justify-between font-display text-xl text-espresso border-t border-coffee/15 pt-4 mt-5 mb-6">
                 <span>Total</span>
-                <span>₹{grandTotal}</span>
+                <span>{formatCurrency(bill.total)}</span>
               </div>
 
-              <button className="w-full py-3.5 rounded-full bg-mocha-green text-cream font-semibold hover:bg-mocha-green-dark transition-colors">
+              <Button as={Link} to="/checkout" variant="green" size="block" className="block text-center">
                 Checkout
-              </button>
+              </Button>
             </div>
            
           </div>

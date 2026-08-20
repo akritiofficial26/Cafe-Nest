@@ -1,129 +1,190 @@
-import React, { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
-import { useCart } from '../../context/CartContext'
-import logoImg from '../../assets/updated logo.png'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { motion, useReducedMotion } from 'framer-motion'
+import products from '../services/product.service'
+import ProductCard from '../components/ui/ProductCard'
+import { getReviews } from '../services/review.service'
+import ReviewCard from '../components/ui/ReviewCard'
+import heroImg from '../assets/coffee-hero-section.png'
+import aboutImage from '../assets/about-image.jpg'
+import gallery1 from '../assets/gallery-1.jpg'
+import gallery3 from '../assets/gallery-3.jpg'
+import gallery6 from '../assets/gallery-6.jpg'
+import hotBeverages from '../assets/hot-beverages.png'
+import coldBeverages from '../assets/cold-beverages.png'
+import ScrollReveal from '../components/animations/ScrollReveal'
+import { StaggerGrid, StaggerItem } from '../components/animations/StaggerGrid'
 
-const links = [
-  { type: 'route', to: '/', label: 'Home' },
-  { type: 'route', to: '/about', label: 'About' },
-  { type: 'route', to: '/shop', label: 'Menu' },
-  { type: 'route', to: '/feedback', label: 'Feedback' },
-  { type: 'route', to: '/gallery', label: 'Gallery' },
-  { type: 'anchor', href: '/#contact', label: 'Contact' },
+function CoffeeIllustration() {
+  return (
+    <div className="relative mx-auto w-full max-w-[31rem]">
+      <div className="absolute inset-0 rounded-full bg-sand/20 blur-3xl" />
+      <div className="absolute left-8 top-12 h-3 w-3 rounded-full bg-sand/80" />
+      <div className="absolute right-10 top-10 h-2.5 w-2.5 rounded-full bg-coffee/70" />
+      <div className="absolute left-2 top-28 h-2 w-2 rounded-full bg-coffee-light/70" />
+      <img
+        src={heroImg}
+        alt="Coffee hero section illustration"
+        className="relative z-10 w-full drop-shadow-[0_20px_45px_rgba(58,42,32,0.16)]"
+      />
+    </div>
+  )
+}
+
+const galleryItems = [
+  {
+    title: 'Morning pour',
+    text: 'The first cup of the day, served in warm light.',
+    image: heroImg,
+  },
+  {
+    title: 'Latte art close-up',
+    text: 'A hand-finished cup with a smooth, silky top.',
+    image: gallery1,
+  },
+  {
+    title: 'Room to breathe',
+    text: 'Soft corners and calm textures for slow conversations.',
+    image: aboutImage,
+  },
+  {
+    title: 'Fresh brew line-up',
+    text: 'Hot drinks waiting behind the counter before the rush.',
+    image: hotBeverages,
+  },
+  {
+    title: 'Chilled pause',
+    text: 'Cold drinks for the slower part of the afternoon.',
+    image: coldBeverages,
+  },
+  {
+    title: 'Shared table moments',
+    text: 'Coffee, notes, and a table that stays open a while.',
+    image: gallery3,
+  },
+  {
+    title: 'Warm pastry corner',
+    text: 'A quiet bite and one more cup before heading out.',
+    image: gallery6,
+  },
 ]
 
-const linkClass = 'px-3 py-2 rounded-full text-sm font-semibold tracking-[0.12em] transition-colors duration-200 hover:bg-mocha-green hover:text-cream'
-
-export default function Navbar() {
-  const { totalCount } = useCart()
-  const [open, setOpen] = useState(false)
-
-  const closeMenu = () => setOpen(false)
+export default function Home() {
+  const featured = products.slice(0, 4)
+  const reviews = getReviews().slice(0, 3)
+  const shouldReduceMotion = useReducedMotion()
 
   return (
-    <header className="sticky top-0 z-40 bg-cream/95 backdrop-blur border-b border-coffee/15">
-      <nav className="max-w-7xl mx-auto flex items-center justify-between gap-6 px-2 sm:px-3 h-20">
-        <Link to="/" className="flex items-center gap-0 shrink-0" onClick={closeMenu}>
-          <img src={logoImg} alt="Coffee logo" className="h-16 w-16 sm:h-18 sm:w-18 rounded-full object-cover" />
-          <span className="font-body text-xl sm:text-[1.55rem] font-extrabold text-espresso tracking-tight leading-none -ml-2 sm:-ml-3">
-            CafeNest
-          </span>
-        </Link>
-
-        <div className="hidden lg:flex items-center gap-7">
-          {links.map((link) =>
-            link.type === 'route' ? (
-              <NavLink
-                key={link.label}
-                to={link.to}
-                className={({ isActive }) =>
-                  `${linkClass} ${isActive ? 'text-mocha-green' : 'text-espresso-light'}`
-                }
-              >
-                {link.label}
-              </NavLink>
-            ) : (
-              <a key={link.label} href={link.href} className={`${linkClass} text-espresso-light`}>
-                {link.label}
-              </a>
-            )
-          )}
-
-          <NavLink
-            to="/cart"
-            className={({ isActive }) =>
-              `relative flex items-center gap-2 px-4 py-2 rounded-full border transition-colors ${
-                isActive
-                  ? 'bg-mocha-green text-cream border-mocha-green'
-                  : 'border-coffee/40 text-espresso hover:bg-coffee hover:text-cream hover:border-coffee'
-              }`
-            }
-          >
-            <span className="text-sm font-semibold tracking-[0.12em]">Cart</span>
-            {totalCount > 0 && (
-              <span className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center rounded-full bg-sand text-espresso text-xs font-bold">
-                {totalCount}
-              </span>
-            )}
-          </NavLink>
-        </div>
-
-        <button
-          className="lg:hidden text-espresso"
-          aria-label="Toggle menu"
-          aria-expanded={open}
-          onClick={() => setOpen((value) => !value)}
+    <div>
+      <section id="home" className="max-w-7xl mx-auto px-2 sm:px-3 pt-14 sm:pt-20 pb-14 lg:pb-18 grid lg:grid-cols-[1.05fr_0.95fr] gap-12 items-center">
+        <motion.div
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, scale: 1.02 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          className="max-w-2xl"
         >
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-            <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-          </svg>
-        </button>
-      </nav>
+          <p className="font-display italic text-2xl sm:text-3xl text-sand mb-4">Best Coffee</p>
+          <h1 className="font-body font-extrabold text-3xl sm:text-4xl lg:text-5xl leading-[1.05] text-espresso max-w-xl mb-5">
+            Make your day great with our special coffee!
+          </h1>
+          <p className="text-espresso-light/90 text-sm sm:text-base max-w-lg mb-8 leading-relaxed">
+            Welcome to our coffee paradise, where every bean tells a story and every cup sparks joy.
+          </p>
+          <div className="flex flex-wrap gap-4 items-center">
+            <Link
+              to="/shop"
+              className="px-6 py-3 rounded-full bg-sand text-espresso text-sm font-semibold hover:bg-coffee-light transition-colors"
+            >
+              Order Now
+            </Link>
+            <Link
+              to="/contact"
+              className="px-6 py-3 rounded-full border border-coffee/40 text-espresso text-sm font-semibold hover:bg-coffee hover:text-cream hover:border-coffee transition-colors"
+            >
+              Contact Us
+            </Link>
+          </div>
+        </motion.div>
+        <motion.div
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, scale: 1.02 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+          className="flex justify-center lg:justify-end"
+        >
+          <CoffeeIllustration />
+        </motion.div>
+      </section>
 
-      {open && (
-        <div className="lg:hidden border-t border-coffee/15 bg-cream px-5 pb-5 flex flex-col gap-1">
-          {links.map((link) =>
-            link.type === 'route' ? (
-              <NavLink
-                key={link.label}
-                to={link.to}
-                onClick={closeMenu}
-                className={({ isActive }) =>
-                  `py-3 text-base border-b border-coffee/10 ${isActive ? 'text-mocha-green font-semibold' : 'text-espresso'}`
-                }
-              >
-                {link.label}
-              </NavLink>
-            ) : (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={closeMenu}
-                className="py-3 text-base border-b border-coffee/10 text-espresso"
-              >
-                {link.label}
-              </a>
-            )
-          )}
+      <div className="twig-divider max-w-7xl mx-auto px-4 sm:px-6" />
 
-          <NavLink
-            to="/cart"
-            onClick={closeMenu}
-            className={({ isActive }) =>
-              `py-3 text-base border-b border-coffee/10 flex items-center gap-2 ${
-                isActive ? 'text-mocha-green font-semibold' : 'text-espresso'
-              }`
-            }
-          >
-            <span>Cart</span>
-            {totalCount > 0 && (
-              <span className="h-5 w-5 flex items-center justify-center rounded-full bg-sand text-espresso text-xs font-bold">
-                {totalCount}
-              </span>
-            )}
-          </NavLink>
+      <section id="menu" className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+        <ScrollReveal>
+          <div className="flex items-end justify-between gap-4 mb-8">
+            <h2 className="font-display text-2xl sm:text-3xl text-espresso">Menu favorites</h2>
+            <Link to="/shop" className="text-sm font-semibold text-mocha-green hover:underline">
+              View full menu →
+            </Link>
+          </div>
+        </ScrollReveal>
+
+        <StaggerGrid className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {featured.map((p) => (
+            <StaggerItem key={p.id}>
+              <ProductCard product={p} />
+            </StaggerItem>
+          ))}
+        </StaggerGrid>
+      </section>
+
+      <section id="feedback" className="bg-cream-deep/60 py-16">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4">
+          <ScrollReveal>
+            <div className="flex items-end justify-between gap-4 mb-8">
+              <h2 className="font-display text-2xl sm:text-3xl text-espresso">Feedback</h2>
+              <Link to="/feedback" className="text-sm font-semibold text-mocha-green hover:underline">
+                View all feedback →
+              </Link>
+            </div>
+          </ScrollReveal>
+          <StaggerGrid className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {reviews.map((review) => (
+              <StaggerItem key={review.id}>
+                <ReviewCard review={review} />
+              </StaggerItem>
+            ))}
+          </StaggerGrid>
         </div>
-      )}
-    </header>
+      </section>
+
+      <section id="gallery" className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+        <ScrollReveal>
+          <div className="flex items-end justify-between gap-4 mb-8">
+            <h2 className="font-display text-2xl sm:text-3xl text-espresso">Gallery</h2>
+            <Link to="/gallery" className="text-sm font-semibold text-mocha-green hover:underline">
+              View more →
+            </Link>
+          </div>
+        </ScrollReveal>
+        <StaggerGrid className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {galleryItems.slice(0, 4).map((item, index) => (
+            <StaggerItem key={item.title}>
+              <div className="group relative min-h-56 overflow-hidden rounded-[2rem] border border-coffee/10 bg-cream-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(58,42,32,0.12)]">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-espresso/78 via-espresso/20 to-transparent" />
+                <div className="relative z-10 flex h-full flex-col justify-end p-5 text-cream">
+                  <p className="text-xs uppercase tracking-[0.18em] text-sand mb-2">0{index + 1}</p>
+                  <h3 className="font-display text-2xl leading-tight">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-cream/82">{item.text}</p>
+                </div>
+              </div>
+            </StaggerItem>
+          ))}
+        </StaggerGrid>
+      </section>
+    </div>
   )
 }
