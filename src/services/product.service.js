@@ -7,6 +7,26 @@ import aboutImage from '../assets/about-image.jpg'
 import gallery6 from '../assets/gallery-6.jpg'
 import specialCombo from '../assets/special-combo.png'
 
+/**
+ * Size ladder shared by every drink. `delta` is added to the product's base
+ * price, so `price` on each product is always the Regular price.
+ */
+export const DRINK_SIZES = [
+  { label: 'Small', delta: -20 },
+  { label: 'Regular', delta: 0 },
+  { label: 'Large', delta: 40 },
+]
+
+/**
+ * `attributes` feeds the Taste Match scoring engine.
+ *   strength / sweetness / caffeine → 1-5 scale
+ *   temperature                     → 'hot' | 'cold'
+ *   milk                            → 'none' | 'dairy' | 'oat'
+ *
+ * Bakes carry no `sizes` and no `attributes` — a croissant has no size ladder
+ * and scoring one on caffeine tolerance is meaningless, so the recommendation
+ * engine skips any product without attributes.
+ */
 const products = [
   {
     id: 'p1',
@@ -16,6 +36,8 @@ const products = [
     category: 'Espresso',
     loved: 412,
     image: hotBeverages,
+    sizes: DRINK_SIZES,
+    attributes: { strength: 4, sweetness: 1, caffeine: 4, temperature: 'hot', milk: 'dairy' },
   },
   {
     id: 'p2',
@@ -25,6 +47,8 @@ const products = [
     category: 'Espresso',
     loved: 356,
     image: coffeeHero,
+    sizes: DRINK_SIZES,
+    attributes: { strength: 3, sweetness: 4, caffeine: 3, temperature: 'hot', milk: 'dairy' },
   },
   {
     id: 'p3',
@@ -34,6 +58,8 @@ const products = [
     category: 'Cold',
     loved: 289,
     image: coldBeverages,
+    sizes: DRINK_SIZES,
+    attributes: { strength: 5, sweetness: 1, caffeine: 5, temperature: 'cold', milk: 'none' },
   },
   {
     id: 'p4',
@@ -43,6 +69,8 @@ const products = [
     category: 'Cold',
     loved: 198,
     image: gallery3,
+    sizes: DRINK_SIZES,
+    attributes: { strength: 2, sweetness: 3, caffeine: 2, temperature: 'cold', milk: 'oat' },
   },
   {
     id: 'p5',
@@ -52,6 +80,8 @@ const products = [
     category: 'Espresso',
     loved: 267,
     image: gallery1,
+    sizes: DRINK_SIZES,
+    attributes: { strength: 4, sweetness: 2, caffeine: 4, temperature: 'hot', milk: 'dairy' },
   },
   {
     id: 'p6',
@@ -61,6 +91,8 @@ const products = [
     category: 'Tea',
     loved: 231,
     image: aboutImage,
+    sizes: DRINK_SIZES,
+    attributes: { strength: 3, sweetness: 4, caffeine: 2, temperature: 'hot', milk: 'dairy' },
   },
   {
     id: 'p7',
@@ -81,5 +113,9 @@ const products = [
     image: specialCombo,
   },
 ]
+
+export function getProductById(id) {
+  return products.find((p) => p.id === id)
+}
 
 export default products

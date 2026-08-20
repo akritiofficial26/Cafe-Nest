@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import { motion, useReducedMotion } from 'framer-motion'
 import products from '../services/product.service'
 import ProductCard from '../components/ui/ProductCard'
-import testimonials from '../services/testimonials.service'
+import { getReviews } from '../services/review.service'
+import ReviewCard from '../components/ui/ReviewCard'
 import heroImg from '../assets/coffee-hero-section.png'
 import ScrollReveal from '../components/animations/ScrollReveal'
 import { StaggerGrid, StaggerItem } from '../components/animations/StaggerGrid'
@@ -24,10 +25,9 @@ function CoffeeIllustration() {
   )
 }
 
-const galleryItems = ['Morning pour', 'Latte art', 'Beans ready', 'Quiet table']
-
 export default function Home() {
   const featured = products.slice(0, 4)
+  const reviews = getReviews().slice(0, 3)
   const shouldReduceMotion = useReducedMotion()
 
   return (
@@ -54,7 +54,7 @@ export default function Home() {
               Order Now
             </Link>
             <Link
-              to="/about"
+              to="/contact"
               className="px-6 py-3 rounded-full border border-coffee/40 text-espresso text-sm font-semibold hover:bg-coffee hover:text-cream hover:border-coffee transition-colors"
             >
               Contact Us
@@ -103,61 +103,15 @@ export default function Home() {
             </div>
           </ScrollReveal>
           <StaggerGrid className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {testimonials.map((item) => (
-              <StaggerItem key={item.title}>
-                <div className="group relative overflow-hidden rounded-[2rem] border border-coffee/10 bg-gradient-to-br from-cream-card via-cream-card to-cream-deep p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(58,42,32,0.12)]">
-                  <div className="absolute right-0 top-0 h-24 w-24 translate-x-8 -translate-y-8 rounded-full bg-mocha-green/8" />
-                  <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sand via-mocha-green to-coffee" />
-                  <div className="relative mb-5 flex items-start justify-between gap-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-mocha-green text-cream shadow-sm transition-transform duration-300 group-hover:scale-105">
-                      <span className="font-display text-2xl leading-none">"</span>
-                    </div>
-                    <span className="rounded-full border border-mocha-green/15 bg-mocha-green/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-mocha-green">
-                      Guest review
-                    </span>
-                  </div>
-                  <p className="relative text-espresso-light/90 leading-relaxed mb-8 text-[0.98rem]">
-                    {item.text}
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-coffee text-cream font-display text-sm shadow-sm">
-                      {item.title.split(',')[0].slice(0, 1).toUpperCase()}
-                    </div>
-                    <div>
-                      <h3 className="font-display text-lg text-espresso leading-tight">{item.title}</h3>
-                      <p className="text-xs uppercase tracking-[0.18em] text-espresso-light/60">CafeNest visitor</p>
-                    </div>
-                  </div>
-                </div>
+            {reviews.map((review) => (
+              <StaggerItem key={review.id}>
+                <ReviewCard review={review} />
               </StaggerItem>
             ))}
           </StaggerGrid>
         </div>
       </section>
 
-      <section id="gallery" className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
-        <ScrollReveal>
-          <div className="flex items-end justify-between gap-4 mb-8">
-            <h2 className="font-display text-2xl sm:text-3xl text-espresso">Gallery</h2>
-            <span className="text-sm font-semibold text-mocha-green">A closer look</span>
-          </div>
-        </ScrollReveal>
-        <StaggerGrid className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {galleryItems.map((item, index) => (
-            <StaggerItem key={item}>
-              <div className="relative min-h-56 overflow-hidden rounded-[2rem] border border-coffee/10 bg-gradient-to-br from-cream-card via-cream to-cream-deep shadow-sm">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(201,168,118,0.25),_transparent_42%),radial-gradient(circle_at_bottom_right,_rgba(122,82,56,0.16),_transparent_38%)]" />
-                <div className="absolute left-5 top-5 h-12 w-12 rounded-full bg-sand/25 border border-sand/40" />
-                <div className="absolute right-4 bottom-4 h-20 w-20 rounded-full bg-coffee/10 border border-coffee/15" />
-                <div className="relative z-10 flex h-full flex-col justify-end p-5">
-                  <p className="text-xs uppercase tracking-[0.18em] text-mocha-green mb-2">0{index + 1}</p>
-                  <h3 className="font-display text-2xl text-espresso">{item}</h3>
-                </div>
-              </div>
-            </StaggerItem>
-          ))}
-        </StaggerGrid>
-      </section>
     </div>
   )
 }

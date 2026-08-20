@@ -7,8 +7,8 @@ const links = [
   { type: 'route', to: '/', label: 'Home' },
   { type: 'route', to: '/about', label: 'About' },
   { type: 'route', to: '/shop', label: 'Menu' },
+  { type: 'route', to: '/taste-match', label: 'Taste Match', highlight: true },
   { type: 'route', to: '/feedback', label: 'Feedback' },
-  { type: 'anchor', href: '/#gallery', label: 'Gallery' },
   { type: 'anchor', href: '/#contact', label: 'Contact' },
 ]
 
@@ -37,7 +37,13 @@ export default function Navbar() {
                 key={link.label}
                 to={link.to}
                 className={({ isActive }) =>
-                  `${linkClass} ${isActive ? 'text-mocha-green' : 'text-espresso-light'}`
+                  `${linkClass} ${
+                    isActive
+                      ? 'text-mocha-green'
+                      : link.highlight
+                        ? 'text-coffee-dark font-bold'
+                        : 'text-espresso-light'
+                  }`
                 }
               >
                 {link.label}

@@ -1,10 +1,10 @@
 import React from "react";
 import logoImg from '../../assets/updated logo.png'
+import { CAFE_INFO } from '../../services/cafe.service'
 
 export default function Footer() {
   return (
     <footer
-      id="contact"
       className="bg-espresso text-cream mt-24 border-t border-white/10"
     >
       <div
@@ -38,9 +38,9 @@ export default function Footer() {
           </h4>
 
           <p className="text-cream/70 text-sm leading-7">
-            12 Maple Lane, Dehradun
+            {CAFE_INFO.address.line1}
             <br />
-            Near the old market square
+            {CAFE_INFO.address.line2}
           </p>
         </div>
 
@@ -51,9 +51,12 @@ export default function Footer() {
           </h4>
 
           <p className="text-cream/70 text-sm leading-7">
-            Monday – Friday: 8am – 9pm
-            <br />
-            Saturday – Sunday: 9am – 10pm
+            {CAFE_INFO.hours.map((slot, index) => (
+              <React.Fragment key={slot.days}>
+                {slot.days}: {slot.time}
+                {index < CAFE_INFO.hours.length - 1 && <br />}
+              </React.Fragment>
+            ))}
           </p>
         </div>
 
@@ -65,17 +68,17 @@ export default function Footer() {
 
           <div className="space-y-2 text-sm text-cream/70">
             <a
-              href="mailto:hello@cafenest.com"
+              href={`mailto:${CAFE_INFO.email}`}
               className="block hover:text-sand transition-colors"
             >
-              hello@cafenest.com
+              {CAFE_INFO.email}
             </a>
 
             <a
-              href="tel:+919876543210"
+              href={CAFE_INFO.phoneHref}
               className="block hover:text-sand transition-colors"
             >
-              +91 98765 43210
+              {CAFE_INFO.phone}
             </a>
           </div>
         </div>
