@@ -156,35 +156,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="gallery" className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
-        <ScrollReveal>
-          <div className="flex items-end justify-between gap-4 mb-8">
-            <h2 className="font-display text-2xl sm:text-3xl text-espresso">Gallery</h2>
-            <Link to="/gallery" className="text-sm font-semibold text-mocha-green hover:underline">
-              View more →
-            </Link>
-          </div>
-        </ScrollReveal>
-        <StaggerGrid className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {galleryItems.slice(0, 4).map((item, index) => (
-            <StaggerItem key={item.title}>
-              <div className="group relative min-h-56 overflow-hidden rounded-[2rem] border border-coffee/10 bg-cream-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(58,42,32,0.12)]">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-espresso/78 via-espresso/20 to-transparent" />
-                <div className="relative z-10 flex h-full flex-col justify-end p-5 text-cream">
-                  <p className="text-xs uppercase tracking-[0.18em] text-sand mb-2">0{index + 1}</p>
-                  <h3 className="font-display text-2xl leading-tight">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-cream/82">{item.text}</p>
-                </div>
-              </div>
-            </StaggerItem>
-          ))}
-        </StaggerGrid>
-      </section>
     </div>
   )
 }
