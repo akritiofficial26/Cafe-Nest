@@ -39,6 +39,8 @@ export default function Checkout() {
     address: '',
   })
   const [errors, setErrors] = useState({})
+  const [placedOrderId, setPlacedOrderId] = useState(null)
+  const [showPlacedPopup, setShowPlacedPopup] = useState(false)
 
   const bill = calculateBill(totalPrice, form.fulfilment)
 
@@ -79,8 +81,15 @@ export default function Checkout() {
       },
     })
 
+    setPlacedOrderId(order.id)
+    setShowPlacedPopup(true)
+  }
+
+  function handlePlacedPopupOk() {
+    if (!placedOrderId) return
+    setShowPlacedPopup(false)
     clearCart()
-    navigate(`/order-confirmation/${order.id}`)
+    navigate(`/order-confirmation/${placedOrderId}`)
   }
 
   const isDelivery = form.fulfilment === FULFILMENT.delivery
@@ -218,6 +227,39 @@ export default function Checkout() {
           </Link>
         </div>
       </form>
+
+      {showPlacedPopup && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-espresso/35 px-5"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="order-placed-title"
+        >
+          <div className="w-full max-w-sm rounded-[1.5rem] border border-mocha-green/20 bg-cream-card p-7 text-center shadow-2xl">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-mocha-green/15 text-mocha-green">
+              <svg
+                viewBox="0 0 24 24"
+                className="h-9 w-9"
+                aria-hidden="true"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M20 6 9 17l-5-5" />
+              </svg>
+            </div>
+            <h2 id="order-placed-title" className="font-display text-3xl text-espresso mb-2">
+              Your order is placed
+            </h2>
+            <p className="text-espresso-light/75 mb-6">Thanks for ordering. We are preparing it now.</p>
+            <Button type="button" variant="green" size="block" onClick={handlePlacedPopupOk}>
+              OK
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
