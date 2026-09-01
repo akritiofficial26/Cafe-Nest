@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useCart } from '../../context/CartContext'
+import { useAuth } from '../../context/AuthContext'
 import logoImg from '../../assets/updated logo.png'
 
 const links = [
@@ -15,10 +16,22 @@ const links = [
 const linkClass = 'px-3 py-2 rounded-full text-sm font-semibold tracking-[0.12em] transition-colors duration-200 hover:bg-mocha-green hover:text-cream'
 
 export default function Navbar() {
-  const { totalCount } = useCart()
+  const { totalCount, clearCart } = useCart()
+  const { user, isAdmin, signOut } = useAuth()
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false)
 
   const closeMenu = () => setOpen(false)
+
+  function handleSignOut() {
+    closeMenu()
+    signOut()
+    // The cart is members-only now, so it belongs to the account rather than
+    // the browser — leaving it would hand the next person who signs in on this
+    // machine someone else's order.
+    clearCart()
+    navigate('/')
+  }
 
   return (
     <header className="sticky top-0 z-40 bg-cream/95 backdrop-blur border-b border-coffee/15">
@@ -55,23 +68,61 @@ export default function Navbar() {
             )
           )}
 
-          <NavLink
-            to="/cart"
-            className={({ isActive }) =>
-              `relative flex items-center gap-2 px-4 py-2 rounded-full border transition-colors ${
-                isActive
-                  ? 'bg-mocha-green text-cream border-mocha-green'
-                  : 'border-coffee/40 text-espresso hover:bg-coffee hover:text-cream hover:border-coffee'
-              }`
-            }
-          >
-            <span className="text-sm font-semibold tracking-[0.12em]">Cart</span>
-            {totalCount > 0 && (
-              <span className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center rounded-full bg-sand text-espresso text-xs font-bold">
-                {totalCount}
+          {/* Hidden while signed out — the cart route is gated, so the badge
+              would only ever read zero and the link would bounce. */}
+          {user && (
+            <NavLink
+              to="/cart"
+              className={({ isActive }) =>
+                `relative flex items-center gap-2 px-4 py-2 rounded-full border transition-colors ${
+                  isActive
+                    ? 'bg-mocha-green text-cream border-mocha-green'
+                    : 'border-coffee/40 text-espresso hover:bg-coffee hover:text-cream hover:border-coffee'
+                }`
+              }
+            >
+              <span className="text-sm font-semibold tracking-[0.12em]">Cart</span>
+              {totalCount > 0 && (
+                <span className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center rounded-full bg-sand text-espresso text-xs font-bold">
+                  {totalCount}
+                </span>
+              )}
+            </NavLink>
+          )}
+
+          {user ? (
+            <div className="flex items-center gap-3 pl-1">
+              {isAdmin && (
+                <Link
+                  to="/admin"
+                  className="text-sm font-semibold tracking-[0.12em] text-mocha-green hover:text-mocha-green-dark transition-colors"
+                >
+                  Dashboard
+                </Link>
+              )}
+              <span
+                aria-hidden="true"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-mocha-green text-sm font-bold text-cream"
+                title={user.name}
+              >
+                {user.name[0]}
               </span>
-            )}
-          </NavLink>
+              <button
+                type="button"
+                onClick={handleSignOut}
+                className="text-sm font-semibold tracking-[0.12em] text-espresso-light hover:text-coffee-dark transition-colors"
+              >
+                Log out
+              </button>
+            </div>
+          ) : (
+            <NavLink
+              to="/login"
+              className="px-5 py-2 rounded-full bg-mocha-green text-cream text-sm font-semibold tracking-[0.12em] hover:bg-mocha-green-dark transition-colors"
+            >
+              Log in
+            </NavLink>
+          )}
         </div>
 
         <button
@@ -112,22 +163,63 @@ export default function Navbar() {
             )
           )}
 
-          <NavLink
-            to="/cart"
-            onClick={closeMenu}
-            className={({ isActive }) =>
-              `py-3 text-base border-b border-coffee/10 flex items-center gap-2 ${
-                isActive ? 'text-mocha-green font-semibold' : 'text-espresso'
-              }`
-            }
-          >
-            <span>Cart</span>
-            {totalCount > 0 && (
-              <span className="h-5 w-5 flex items-center justify-center rounded-full bg-sand text-espresso text-xs font-bold">
-                {totalCount}
-              </span>
-            )}
-          </NavLink>
+          {user && (
+            <NavLink
+              to="/cart"
+              onClick={closeMenu}
+              className={({ isActive }) =>
+                `py-3 text-base border-b border-coffee/10 flex items-center gap-2 ${
+                  isActive ? 'text-mocha-green font-semibold' : 'text-espresso'
+                }`
+              }
+            >
+              <span>Cart</span>
+              {totalCount > 0 && (
+                <span className="h-5 w-5 flex items-center justify-center rounded-full bg-sand text-espresso text-xs font-bold">
+                  {totalCount}
+                </span>
+              )}
+            </NavLink>
+          )}
+
+          {user ? (
+            <>
+              {isAdmin && (
+                <Link
+                  to="/admin"
+                  onClick={closeMenu}
+                  className="py-3 text-base border-b border-coffee/10 text-mocha-green font-semibold"
+                >
+                  Admin dashboard
+                </Link>
+              )}
+              <div className="pt-4 flex items-center justify-between gap-3">
+                <span className="min-w-0">
+                  <span className="block truncate text-sm font-semibold text-espresso">
+                    {user.name}
+                  </span>
+                  <span className="block truncate text-xs text-espresso-light/60">
+                    {user.email}
+                  </span>
+                </span>
+                <button
+                  type="button"
+                  onClick={handleSignOut}
+                  className="shrink-0 rounded-full border border-coffee/40 px-4 py-2 text-sm font-semibold text-espresso hover:bg-coffee hover:text-cream hover:border-coffee transition-colors"
+                >
+                  Log out
+                </button>
+              </div>
+            </>
+          ) : (
+            <NavLink
+              to="/login"
+              onClick={closeMenu}
+              className="mt-4 rounded-full bg-mocha-green px-5 py-3 text-center text-base font-semibold text-cream hover:bg-mocha-green-dark transition-colors"
+            >
+              Log in
+            </NavLink>
+          )}
         </div>
       )}
     </header>
