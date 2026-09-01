@@ -1,6 +1,7 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useCart } from '../../context/CartContext'
+import { useAuth } from '../../context/AuthContext'
 import Button from './Button'
 import QuantityStepper from './QuantityStepper'
 import { formatCurrency } from '../../utils/formatCurrency'
@@ -8,6 +9,9 @@ import defaultImage from '../../assets/hot-beverages.png'
 
 export default function ProductCard({ product }) {
   const { addItem, increment, decrement, findProductItem } = useCart()
+  const { isAuthenticated } = useAuth()
+  const navigate = useNavigate()
+  const location = useLocation()
 
   // One stepper per product, not per size: if a size of this product is already
   // in the cart, +/- adjusts that line. Otherwise Add creates a Regular.
@@ -15,6 +19,20 @@ export default function ProductCard({ product }) {
   const quantity = inCart ? inCart.quantity : 0
 
   const detailPath = `/shop/${product.id}`
+
+  /**
+   * The cart is members-only, and this card is the one place it can be reached
+   * while signed out (Home is the only public page and it renders these). Send
+   * the visitor to login with their current page as the return path, rather
+   * than silently building a cart they cannot open.
+   */
+  function handleAdd() {
+    if (!isAuthenticated) {
+      navigate('/login', { state: { from: location.pathname } })
+      return
+    }
+    addItem(product)
+  }
 
   return (
     <div className="bg-cream-card rounded-3xl border border-coffee/10 shadow-sm hover:shadow-md transition-shadow p-4 flex flex-col">
@@ -48,7 +66,7 @@ export default function ProductCard({ product }) {
         <span className="font-display text-lg text-coffee-dark">{formatCurrency(product.price)}</span>
 
         {quantity === 0 ? (
-          <Button variant="green" size="sm" onClick={() => addItem(product)}>
+          <Button variant="green" size="sm" onClick={handleAdd}>
             Add
           </Button>
         ) : (
