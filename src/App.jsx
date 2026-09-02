@@ -18,7 +18,11 @@ import OrderConfirmation from './pages/OrderConfirmation'
 import Feedback from './pages/Feedback'
 import Contact from './pages/Contact'
 import Login from './pages/Login'
-import AdminDashboard from './pages/AdminDashboard'
+import AdminLayout from './pages/admin/AdminLayout'
+import AdminOverview from './pages/admin/AdminOverview'
+import AdminOrders from './pages/admin/AdminOrders'
+import AdminOrderHistory from './pages/admin/AdminOrderHistory'
+import AdminOrderDetail from './pages/admin/AdminOrderDetail'
 import NotFound from './pages/NotFound'
 
 /**
@@ -29,7 +33,7 @@ import NotFound from './pages/NotFound'
  * Three route groups:
  *   /login  — standalone, no site chrome
  *   site    — Navbar + Footer; Home public, the rest behind RequireAuth
- *   /admin  — standalone, admins only
+ *   /admin  — its own shell (AdminLayout), admins only
  */
 export default function App() {
   return (
@@ -66,9 +70,17 @@ export default function App() {
             <Route path="*" element={<NotFound />} />
           </Route>
 
-          {/* Admin — signed-in admins only, no site chrome. */}
+          {/* Admin — signed-in admins only, no site chrome.
+              `orders/history` is declared before `orders/:orderId` for
+              readability; React Router ranks the static segment higher either
+              way, so "history" can never be read as an order reference. */}
           <Route element={<RequireAuth role={ROLES.admin} />}>
-            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminOverview />} />
+              <Route path="orders" element={<AdminOrders />} />
+              <Route path="orders/history" element={<AdminOrderHistory />} />
+              <Route path="orders/:orderId" element={<AdminOrderDetail />} />
+            </Route>
           </Route>
         </Routes>
       </CartProvider>
