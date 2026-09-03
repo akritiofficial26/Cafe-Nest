@@ -26,9 +26,6 @@ export default function Navbar() {
   function handleSignOut() {
     closeMenu()
     signOut()
-    // The cart is members-only now, so it belongs to the account rather than
-    // the browser — leaving it would hand the next person who signs in on this
-    // machine someone else's order.
     clearCart()
     navigate('/')
   }
@@ -68,8 +65,6 @@ export default function Navbar() {
             )
           )}
 
-          {/* Hidden while signed out — the cart route is gated, so the badge
-              would only ever read zero and the link would bounce. */}
           {user && (
             <NavLink
               to="/cart"
@@ -100,19 +95,17 @@ export default function Navbar() {
                   Dashboard
                 </Link>
               )}
-              <span
-                aria-hidden="true"
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-mocha-green text-sm font-bold text-cream"
-                title={user.name}
-              >
-                {user.name[0]}
-              </span>
               <button
                 type="button"
                 onClick={handleSignOut}
-                className="text-sm font-semibold tracking-[0.12em] text-espresso-light hover:text-coffee-dark transition-colors"
+                aria-label="Log out"
+                title="Log out"
+                className="text-espresso-light transition-colors hover:text-coffee-dark"
               >
-                Log out
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M10 4H5.5A1.5 1.5 0 0 0 4 5.5v13A1.5 1.5 0 0 0 5.5 20H10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                  <path d="M14 8l4 4-4 4M18 12H9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
               </button>
             </div>
           ) : (
@@ -205,9 +198,14 @@ export default function Navbar() {
                 <button
                   type="button"
                   onClick={handleSignOut}
-                  className="shrink-0 rounded-full border border-coffee/40 px-4 py-2 text-sm font-semibold text-espresso hover:bg-coffee hover:text-cream hover:border-coffee transition-colors"
+                  aria-label="Log out"
+                  title="Log out"
+                  className="shrink-0 rounded-full border border-coffee/40 p-2 text-espresso transition-colors hover:border-coffee hover:bg-coffee hover:text-cream"
                 >
-                  Log out
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M10 4H5.5A1.5 1.5 0 0 0 4 5.5v13A1.5 1.5 0 0 0 5.5 20H10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                    <path d="M14 8l4 4-4 4M18 12H9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
                 </button>
               </div>
             </>

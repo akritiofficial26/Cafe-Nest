@@ -1,11 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-/**
- * One figure on the dashboard. Renders as a link when `to` is given, so a
- * number the admin wants to act on takes them to the page that lists it —
- * a card showing "3 new orders" that cannot be clicked is a dead end.
- */
 export default function StatCard({ label, value, hint, to, accent = false }) {
   const Component = to ? Link : 'div'
 
