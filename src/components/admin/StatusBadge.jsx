@@ -14,7 +14,7 @@ export default function StatusBadge({ order, className = '' }) {
 
   return (
     <span
-      className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.12em] ${tone} ${className}`.trim()}
+      className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[0.62rem] font-semibold uppercase tracking-[0.1em] ${tone} ${className}`.trim()}
     >
       {order?.status === ORDER_STATUS.pending && (
 

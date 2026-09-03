@@ -28,10 +28,10 @@ import FulfilmentTag from '../../components/admin/FulfilmentTag'
 function Row({ label, children }) {
   return (
     <div>
-      <p className="mb-1 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-espresso-light/50">
+      <p className="mb-1 text-[0.6rem] font-semibold uppercase tracking-[0.14em] text-espresso-light/50">
         {label}
       </p>
-      <p className="text-sm leading-relaxed text-espresso">{children}</p>
+      <p className="text-[0.8rem] leading-relaxed text-espresso">{children}</p>
     </div>
   )
 }
@@ -46,15 +46,15 @@ export default function AdminOrderDetail() {
   if (!order) {
     return (
       <div className="mx-auto max-w-xl py-16 text-center">
-        <h2 className="mb-3 font-display text-3xl text-espresso">No order with that reference.</h2>
-        <p className="mb-8 leading-relaxed text-espresso-light/75">
+        <h2 className="mb-3 font-display text-2xl text-espresso">No order with that reference.</h2>
+        <p className="mb-7 text-sm leading-relaxed text-espresso-light/75">
           <span className="font-semibold text-espresso">{orderId}</span> is not in the store. It may
           be mistyped, or placed in a different browser — orders live in this browser until the
           backend lands.
         </p>
         <Link
           to="/admin/orders"
-          className="rounded-full bg-mocha-green px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-mocha-green-dark"
+          className="rounded-full bg-mocha-green px-5 py-2 text-[0.8rem] font-semibold text-cream transition-colors hover:bg-mocha-green-dark"
         >
           Back to the queue
         </Link>
@@ -70,44 +70,39 @@ export default function AdminOrderDetail() {
     <div className="mx-auto max-w-4xl">
       <Link
         to={live ? '/admin/orders' : '/admin/orders/history'}
-        className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-espresso-light/70 transition-colors hover:text-mocha-green"
+        className="mb-5 inline-flex items-center gap-2 text-[0.8rem] font-semibold text-espresso-light/70 transition-colors hover:text-mocha-green"
       >
         <span aria-hidden="true">←</span>
         {live ? 'Back to the live queue' : 'Back to past orders'}
       </Link>
 
-      <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
+      <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div>
           <div className="mb-2 flex flex-wrap items-center gap-3">
-            <h2 className="font-display text-3xl text-espresso sm:text-4xl">{order.id}</h2>
+            <h2 className="font-display text-2xl text-espresso sm:text-3xl">{order.id}</h2>
             <StatusBadge order={order} />
-            {order.seeded && (
-              <span className="rounded-full bg-espresso/10 px-2.5 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.12em] text-espresso-light/60">
-                demo order
-              </span>
-            )}
           </div>
-          <p className="text-espresso-light/70">
+          <p className="text-[0.8rem] text-espresso-light/70">
             Placed {formatDateTimeFull(order.createdAt)} ·{' '}
             {formatRelativeTime(order.createdAt, now)}
           </p>
         </div>
 
-        <div className="rounded-2xl border border-coffee/10 bg-cream-card px-5 py-3 text-right">
-          <p className="text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-mocha-green">
+        <div className="rounded-2xl border border-coffee/10 bg-cream-card px-4 py-2.5 text-right">
+          <p className="text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-mocha-green">
             Total
           </p>
-          <p className="font-display text-3xl text-espresso">{formatCurrency(order.bill.total)}</p>
+          <p className="font-display text-2xl text-espresso">{formatCurrency(order.bill.total)}</p>
         </div>
       </div>
 
       {/* Actions — only for an order that can still move. A finished order says
           so instead of showing buttons that would be rejected by the service. */}
-      <div className="mb-8 rounded-[1.75rem] border border-coffee/10 bg-cream-card p-5 shadow-sm sm:p-6">
+      <div className="mb-6 rounded-2xl border border-coffee/10 bg-cream-card p-5 shadow-sm">
         {live ? (
           confirmingCancel ? (
             <>
-              <p className="mb-4 text-sm text-espresso">
+              <p className="mb-4 text-[0.8rem] text-espresso">
                 Cancel {order.id}? It moves to past orders marked cancelled, is dropped from the
                 live queue, and stops counting towards revenue. This cannot be undone.
               </p>
@@ -115,14 +110,14 @@ export default function AdminOrderDetail() {
                 <button
                   type="button"
                   onClick={() => cancelOrder(order.id)}
-                  className="rounded-full bg-coffee-dark px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-espresso"
+                  className="rounded-full bg-coffee-dark px-4 py-2 text-[0.8rem] font-semibold text-cream transition-colors hover:bg-espresso"
                 >
                   Yes, cancel this order
                 </button>
                 <button
                   type="button"
                   onClick={() => setConfirmingCancel(false)}
-                  className="rounded-full border border-coffee/30 px-5 py-2.5 text-sm font-semibold text-espresso transition-colors hover:border-coffee"
+                  className="rounded-full border border-coffee/30 px-4 py-2 text-[0.8rem] font-semibold text-espresso transition-colors hover:border-coffee"
                 >
                   Keep the order
                 </button>
@@ -130,7 +125,7 @@ export default function AdminOrderDetail() {
             </>
           ) : (
             <>
-              <p className="mb-4 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-mocha-green">
+              <p className="mb-3 text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-mocha-green">
                 Currently {STATUS_LABELS[order.status].toLowerCase()}
               </p>
               <div className="flex flex-wrap items-center gap-3">
@@ -138,7 +133,7 @@ export default function AdminOrderDetail() {
                   <button
                     type="button"
                     onClick={() => advanceOrder(order.id)}
-                    className="rounded-full bg-mocha-green px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-mocha-green-dark"
+                    className="rounded-full bg-mocha-green px-4 py-2 text-[0.8rem] font-semibold text-cream transition-colors hover:bg-mocha-green-dark"
                   >
                     {nextAction}
                   </button>
@@ -146,7 +141,7 @@ export default function AdminOrderDetail() {
                 <button
                   type="button"
                   onClick={() => setConfirmingCancel(true)}
-                  className="rounded-full border border-coffee/30 px-5 py-2.5 text-sm font-semibold text-espresso transition-colors hover:border-coffee-dark hover:text-coffee-dark"
+                  className="rounded-full border border-coffee/30 px-4 py-2 text-[0.8rem] font-semibold text-espresso transition-colors hover:border-coffee-dark hover:text-coffee-dark"
                 >
                   Cancel order
                 </button>
@@ -154,22 +149,22 @@ export default function AdminOrderDetail() {
             </>
           )
         ) : (
-          <p className="text-sm text-espresso-light/75">
+          <p className="text-[0.8rem] text-espresso-light/75">
             This order is {STATUS_LABELS[order.status].toLowerCase()} and can no longer be changed.
             It is kept here as a record.
           </p>
         )}
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_20rem] lg:items-start">
+      <div className="grid gap-5 lg:grid-cols-[1fr_19rem] lg:items-start">
         {/* Items and bill */}
-        <div className="rounded-[1.75rem] border border-coffee/10 bg-cream-card p-6 shadow-sm sm:p-8">
-          <h3 className="mb-5 font-display text-2xl text-espresso">
+        <div className="rounded-2xl border border-coffee/10 bg-cream-card p-5 shadow-sm sm:p-6">
+          <h3 className="mb-4 font-display text-lg text-espresso">
             {order.items.reduce((total, item) => total + item.quantity, 0)} item
             {order.items.reduce((total, item) => total + item.quantity, 0) > 1 ? 's' : ''}
           </h3>
 
-          <ul className="mb-6 space-y-4">
+          <ul className="mb-5 space-y-3.5">
             {order.items.map((item, index) => (
               <li
                 key={`${item.productId}-${item.size ?? 'one'}-${index}`}
@@ -179,19 +174,19 @@ export default function AdminOrderDetail() {
                   <p className="text-espresso">
                     <span className="font-semibold">{item.quantity}×</span> {item.name}
                   </p>
-                  <p className="text-xs text-espresso-light/60">
+                  <p className="text-[0.7rem] text-espresso-light/60">
                     {item.size ? `${item.size} · ` : ''}
                     {formatCurrency(item.priceAtPurchase)} each
                   </p>
                 </div>
-                <span className="shrink-0 text-sm font-semibold text-espresso">
+                <span className="shrink-0 text-[0.8rem] font-semibold text-espresso">
                   {formatCurrency(item.priceAtPurchase * item.quantity)}
                 </span>
               </li>
             ))}
           </ul>
 
-          <div className="space-y-3 border-t border-coffee/15 pt-5 text-sm text-espresso-light/85">
+          <div className="space-y-2.5 border-t border-coffee/15 pt-4 text-[0.8rem] text-espresso-light/85">
             <div className="flex justify-between gap-4">
               <span>Subtotal</span>
               <span>{formatCurrency(order.bill.subtotal)}</span>
@@ -212,17 +207,17 @@ export default function AdminOrderDetail() {
             </div>
           </div>
 
-          <div className="mt-5 flex justify-between border-t border-coffee/15 pt-5 font-display text-2xl text-espresso">
+          <div className="mt-4 flex justify-between border-t border-coffee/15 pt-4 font-display text-xl text-espresso">
             <span>Total</span>
             <span>{formatCurrency(order.bill.total)}</span>
           </div>
         </div>
 
-        <div className="grid gap-6">
+        <div className="grid gap-5">
           {/* Customer */}
-          <div className="rounded-[1.75rem] border border-coffee/10 bg-cream-card p-6 shadow-sm">
-            <h3 className="mb-5 font-display text-xl text-espresso">Customer</h3>
-            <div className="space-y-4">
+          <div className="rounded-2xl border border-coffee/10 bg-cream-card p-5 shadow-sm">
+            <h3 className="mb-4 font-display text-lg text-espresso">Customer</h3>
+            <div className="space-y-3.5">
               <Row label="Name">{order.customer.name}</Row>
               <Row label="Phone">
                 {/* Tappable, because the reason an admin opens this page is
@@ -239,7 +234,7 @@ export default function AdminOrderDetail() {
                 )}
               </Row>
               <div>
-                <p className="mb-2 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-espresso-light/50">
+                <p className="mb-2 text-[0.6rem] font-semibold uppercase tracking-[0.14em] text-espresso-light/50">
                   Fulfilment
                 </p>
                 <FulfilmentTag fulfilment={order.customer.fulfilment} />
@@ -252,9 +247,9 @@ export default function AdminOrderDetail() {
           </div>
 
           {/* Audit trail */}
-          <div className="rounded-[1.75rem] border border-coffee/10 bg-cream-card p-6 shadow-sm">
-            <h3 className="mb-5 font-display text-xl text-espresso">Timeline</h3>
-            <ol className="space-y-4">
+          <div className="rounded-2xl border border-coffee/10 bg-cream-card p-5 shadow-sm">
+            <h3 className="mb-4 font-display text-lg text-espresso">Timeline</h3>
+            <ol className="space-y-3.5">
               {order.statusHistory.map((entry, index) => (
                 <li key={`${entry.status}-${entry.at}`} className="flex gap-3">
                   <span
@@ -266,10 +261,10 @@ export default function AdminOrderDetail() {
                     }`}
                   />
                   <div className="min-w-0">
-                    <p className="text-sm font-semibold text-espresso">
+                    <p className="text-[0.8rem] font-semibold text-espresso">
                       {STATUS_LABELS[entry.status]}
                     </p>
-                    <p className="text-xs text-espresso-light/60">{formatDateTimeFull(entry.at)}</p>
+                    <p className="text-[0.7rem] text-espresso-light/60">{formatDateTimeFull(entry.at)}</p>
                   </div>
                 </li>
               ))}

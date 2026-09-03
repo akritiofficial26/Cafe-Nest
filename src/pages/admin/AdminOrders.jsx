@@ -42,33 +42,32 @@ export default function AdminOrders() {
 
   return (
     <>
-      <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
+      <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h2 className="mb-2 font-display text-3xl text-espresso sm:text-4xl">Live orders</h2>
-          <p className="max-w-xl leading-relaxed text-espresso-light/75">
+          <h2 className="mb-1.5 font-display text-2xl text-espresso sm:text-3xl">Live orders</h2>
+          <p className="max-w-xl text-sm leading-relaxed text-espresso-light/75">
             Longest wait first. New orders arrive here on their own — no refresh needed.
           </p>
         </div>
 
         {orders.length > 0 && (
-          <div className="rounded-2xl border border-coffee/10 bg-cream-card px-5 py-3 text-right">
-            <p className="text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-mocha-green">
+          <div className="rounded-2xl border border-coffee/10 bg-cream-card px-4 py-2.5 text-right">
+            <p className="text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-mocha-green">
               In the queue
             </p>
-            <p className="font-display text-2xl text-espresso">{formatCurrency(queueValue)}</p>
+            <p className="font-display text-xl text-espresso">{formatCurrency(queueValue)}</p>
           </div>
         )}
       </div>
 
-      <div className="mb-7 flex flex-wrap gap-2" role="tablist" aria-label="Filter orders by status">
+      <div className="mb-6 flex flex-wrap gap-2" aria-label="Filter orders by status">
         {tabs.map((tab) => (
           <button
             key={tab.value}
             type="button"
-            role="tab"
-            aria-selected={filter === tab.value}
+            aria-pressed={filter === tab.value}
             onClick={() => setFilter(tab.value)}
-            className={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
+            className={`rounded-full border px-3.5 py-1.5 text-[0.8rem] font-semibold transition-colors ${
               filter === tab.value
                 ? 'border-mocha-green bg-mocha-green text-cream'
                 : 'border-coffee/25 text-espresso hover:border-coffee'
@@ -90,7 +89,7 @@ export default function AdminOrders() {
         >
           <Link
             to="/admin/orders/history"
-            className="rounded-full border border-coffee/30 px-5 py-2.5 text-sm font-semibold text-espresso transition-colors hover:border-coffee hover:bg-coffee hover:text-cream"
+            className="rounded-full border border-coffee/30 px-5 py-2 text-[0.8rem] font-semibold text-espresso transition-colors hover:border-coffee hover:bg-coffee hover:text-cream"
           >
             See past orders
           </Link>
@@ -104,13 +103,13 @@ export default function AdminOrders() {
           <button
             type="button"
             onClick={() => setFilter(ALL)}
-            className="rounded-full border border-coffee/30 px-5 py-2.5 text-sm font-semibold text-espresso transition-colors hover:border-coffee hover:bg-coffee hover:text-cream"
+            className="rounded-full border border-coffee/30 px-5 py-2 text-[0.8rem] font-semibold text-espresso transition-colors hover:border-coffee hover:bg-coffee hover:text-cream"
           >
             Show all {orders.length}
           </button>
         </EmptyState>
       ) : (
-        <div className="grid gap-5 xl:grid-cols-2">
+        <div className="grid gap-4 xl:grid-cols-2">
           {visible.map((order) => (
             <OrderCard key={order.id} order={order} now={now} />
           ))}

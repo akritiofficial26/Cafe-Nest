@@ -31,11 +31,11 @@ export default function AdminOverview() {
 
   return (
     <>
-      <div className="mb-9">
-        <h2 className="mb-2 font-display text-3xl text-espresso sm:text-4xl">
+      <div className="mb-7">
+        <h2 className="mb-1.5 font-display text-2xl text-espresso sm:text-3xl">
           Welcome back, {user?.name?.split(' ')[0] ?? 'Admin'}.
         </h2>
-        <p className="max-w-xl leading-relaxed text-espresso-light/75">
+        <p className="max-w-xl text-sm leading-relaxed text-espresso-light/75">
           {stats.newCount > 0
             ? `${stats.newCount} new order${stats.newCount > 1 ? 's' : ''} waiting to be accepted.`
             : stats.activeCount > 0
@@ -44,7 +44,7 @@ export default function AdminOverview() {
         </p>
       </div>
 
-      <div className="mb-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="mb-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard
           label="Orders in progress"
           value={stats.activeCount}
@@ -77,16 +77,16 @@ export default function AdminOverview() {
       </div>
 
       <section>
-        <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+        <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
           <div>
-            <h3 className="font-display text-2xl text-espresso">Live queue</h3>
-            <p className="text-sm text-espresso-light/70">
+            <h3 className="font-display text-xl text-espresso">Live queue</h3>
+            <p className="text-[0.8rem] text-espresso-light/70">
               Updates on its own as orders come in and move along.
             </p>
           </div>
           <Link
             to="/admin/orders"
-            className="text-sm font-semibold text-mocha-green transition-colors hover:text-mocha-green-dark"
+            className="text-[0.8rem] font-semibold text-mocha-green transition-colors hover:text-mocha-green-dark"
           >
             Open the full queue →
           </Link>
@@ -98,23 +98,23 @@ export default function AdminOverview() {
             message="Every order has been served. The next one a customer places will show up here without a refresh."
           />
         ) : (
-          <ul className="divide-y divide-coffee/10 overflow-hidden rounded-[1.75rem] border border-coffee/10 bg-cream-card shadow-sm">
+          <ul className="divide-y divide-coffee/10 overflow-hidden rounded-2xl border border-coffee/10 bg-cream-card shadow-sm">
             {preview.map((order) => (
               <li key={order.id}>
                 <Link
                   to={`/admin/orders/${order.id}`}
-                  className="flex flex-wrap items-center gap-x-4 gap-y-2 px-5 py-4 transition-colors hover:bg-mocha-green/5 sm:px-6"
+                  className="flex flex-wrap items-center gap-x-4 gap-y-2 px-5 py-3.5 transition-colors hover:bg-mocha-green/5"
                 >
-                  <span className="w-24 shrink-0 font-display text-lg text-espresso">{order.id}</span>
+                  <span className="w-24 shrink-0 font-display text-base text-espresso">{order.id}</span>
                   <StatusBadge order={order} />
-                  <span className="min-w-0 flex-1 truncate text-sm text-espresso-light/80">
+                  <span className="min-w-0 flex-1 truncate text-[0.8rem] text-espresso-light/80">
                     {order.customer.name} ·{' '}
                     {order.items.map((item) => `${item.quantity}× ${item.name}`).join(', ')}
                   </span>
                   <span className="text-xs text-espresso-light/55">
                     {formatRelativeTime(order.createdAt, now)}
                   </span>
-                  <span className="w-16 shrink-0 text-right text-sm font-semibold text-espresso">
+                  <span className="w-16 shrink-0 text-right text-[0.8rem] font-semibold text-espresso">
                     {formatCurrency(order.bill.total)}
                   </span>
                 </Link>
@@ -124,7 +124,7 @@ export default function AdminOverview() {
         )}
 
         {activeOrders.length > PREVIEW_LIMIT && (
-          <p className="mt-4 text-sm text-espresso-light/60">
+          <p className="mt-3 text-[0.8rem] text-espresso-light/60">
             Showing {PREVIEW_LIMIT} of {activeOrders.length} orders in the queue.
           </p>
         )}

@@ -42,7 +42,7 @@ export default function OrderCard({ order, now }) {
 
   return (
     <article
-      className={`rounded-[1.75rem] border bg-cream-card p-5 shadow-sm transition-colors sm:p-6 ${
+      className={`rounded-2xl border bg-cream-card p-5 shadow-sm transition-colors ${
         isLate ? 'border-sand' : 'border-coffee/10'
       }`}
     >
@@ -51,27 +51,22 @@ export default function OrderCard({ order, now }) {
           <div className="mb-1.5 flex flex-wrap items-center gap-2">
             <Link
               to={`/admin/orders/${order.id}`}
-              className="font-display text-xl text-espresso transition-colors hover:text-mocha-green"
+              className="font-display text-base text-espresso transition-colors hover:text-mocha-green"
             >
               {order.id}
             </Link>
             <StatusBadge order={order} />
-            {order.seeded && (
-              <span className="rounded-full bg-espresso/10 px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-[0.12em] text-espresso-light/60">
-                demo
-              </span>
-            )}
           </div>
-          <p className="text-sm text-espresso-light/75">
+          <p className="text-[0.8rem] text-espresso-light/75">
             {order.customer.name} · {order.customer.phone}
           </p>
         </div>
 
         <div className="text-right">
-          <p className="font-display text-2xl leading-none text-espresso">
+          <p className="font-display text-xl leading-none text-espresso">
             {formatCurrency(order.bill.total)}
           </p>
-          <p className={`mt-1.5 text-xs ${isLate ? 'font-semibold text-coffee-dark' : 'text-espresso-light/60'}`}>
+          <p className={`mt-1 text-[0.7rem] ${isLate ? 'font-semibold text-coffee-dark' : 'text-espresso-light/60'}`}>
             {formatRelativeTime(order.createdAt, now)}
             <span className="text-espresso-light/40"> · {formatClockTime(order.createdAt)}</span>
           </p>
@@ -80,12 +75,12 @@ export default function OrderCard({ order, now }) {
 
       <div className="mb-4 flex flex-wrap items-center gap-2">
         <FulfilmentTag fulfilment={order.customer.fulfilment} />
-        <span className="text-xs text-espresso-light/60">
+        <span className="text-[0.7rem] text-espresso-light/60">
           {itemCount} item{itemCount > 1 ? 's' : ''}
         </span>
       </div>
 
-      <ul className="mb-5 space-y-1.5 border-t border-coffee/10 pt-4 text-sm text-espresso-light/85">
+      <ul className="mb-4 space-y-1.5 border-t border-coffee/10 pt-4 text-[0.8rem] text-espresso-light/85">
         {order.items.map((item, index) => (
           <li key={`${item.productId}-${item.size ?? 'one'}-${index}`} className="flex justify-between gap-4">
             <span className="min-w-0">
@@ -100,7 +95,7 @@ export default function OrderCard({ order, now }) {
       </ul>
 
       {order.customer.fulfilment === FULFILMENT.delivery && order.customer.address && (
-        <p className="mb-5 rounded-2xl bg-cream px-4 py-3 text-xs leading-relaxed text-espresso-light/75">
+        <p className="mb-4 rounded-xl bg-cream px-4 py-2.5 text-[0.7rem] leading-relaxed text-espresso-light/75">
           <span className="font-semibold uppercase tracking-[0.14em] text-espresso-light/55">
             Deliver to
           </span>
@@ -110,22 +105,22 @@ export default function OrderCard({ order, now }) {
       )}
 
       {confirmingCancel ? (
-        <div className="rounded-2xl border border-coffee-dark/25 bg-cream px-4 py-3">
-          <p className="mb-3 text-sm text-espresso">
+        <div className="rounded-xl border border-coffee-dark/25 bg-cream px-4 py-3">
+          <p className="mb-3 text-[0.8rem] text-espresso">
             Cancel {order.id}? This moves it to past orders and cannot be undone.
           </p>
           <div className="flex flex-wrap gap-2">
             <button
               type="button"
               onClick={() => cancelOrder(order.id)}
-              className="rounded-full bg-coffee-dark px-4 py-2 text-sm font-semibold text-cream transition-colors hover:bg-espresso"
+              className="rounded-full bg-coffee-dark px-4 py-1.5 text-[0.8rem] font-semibold text-cream transition-colors hover:bg-espresso"
             >
               Yes, cancel it
             </button>
             <button
               type="button"
               onClick={() => setConfirmingCancel(false)}
-              className="rounded-full border border-coffee/30 px-4 py-2 text-sm font-semibold text-espresso transition-colors hover:border-coffee"
+              className="rounded-full border border-coffee/30 px-4 py-1.5 text-[0.8rem] font-semibold text-espresso transition-colors hover:border-coffee"
             >
               Keep the order
             </button>
@@ -137,21 +132,21 @@ export default function OrderCard({ order, now }) {
             <button
               type="button"
               onClick={() => advanceOrder(order.id)}
-              className="rounded-full bg-mocha-green px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-mocha-green-dark"
+              className="rounded-full bg-mocha-green px-4 py-2 text-[0.8rem] font-semibold text-cream transition-colors hover:bg-mocha-green-dark"
             >
               {nextAction}
             </button>
           )}
           <Link
             to={`/admin/orders/${order.id}`}
-            className="rounded-full border border-coffee/30 px-5 py-2.5 text-sm font-semibold text-espresso transition-colors hover:border-coffee hover:bg-coffee hover:text-cream"
+            className="rounded-full border border-coffee/30 px-4 py-2 text-[0.8rem] font-semibold text-espresso transition-colors hover:border-coffee hover:bg-coffee hover:text-cream"
           >
             Details
           </Link>
           <button
             type="button"
             onClick={() => setConfirmingCancel(true)}
-            className="ml-auto rounded-full px-4 py-2.5 text-sm font-semibold text-espresso-light/60 transition-colors hover:text-coffee-dark"
+            className="ml-auto rounded-full px-3 py-2 text-[0.8rem] font-semibold text-espresso-light/60 transition-colors hover:text-coffee-dark"
           >
             Cancel
           </button>
