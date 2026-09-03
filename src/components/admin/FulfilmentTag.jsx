@@ -10,10 +10,10 @@ export default function FulfilmentTag({ fulfilment }) {
   const isDelivery = fulfilment === FULFILMENT.delivery
 
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full bg-espresso/5 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-espresso-light/80">
+    <span className="inline-flex items-center gap-1.5 rounded-full bg-espresso/5 px-2.5 py-0.5 text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-espresso-light/80">
       <svg
         viewBox="0 0 24 24"
-        className="h-3.5 w-3.5"
+        className="h-3 w-3"
         aria-hidden="true"
         fill="none"
         stroke="currentColor"

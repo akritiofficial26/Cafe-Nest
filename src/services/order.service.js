@@ -1,5 +1,5 @@
 import { getSession } from './auth.service'
-import { calculateBill, FULFILMENT } from '../utils/bill'
+import { FULFILMENT } from '../utils/bill'
 
 /**
  * Orders — localStorage shim.
@@ -18,6 +18,11 @@ import { calculateBill, FULFILMENT } from '../utils/bill'
  * the panel — a real backend fixes it without touching the UI.
  */
 const ORDERS_KEY = 'cafenest_orders'
+/**
+ * Legacy flag. The panel used to write ten demo orders on first load; it no
+ * longer does, so this key only survives to identify a browser that still has
+ * those records sitting in storage — see `purgeLegacySeeds`.
+ */
 const SEEDED_KEY = 'cafenest_orders_seeded'
 const ORDER_LIMIT = 100
 
@@ -155,242 +160,40 @@ function writeOrders(orders) {
   emit()
 }
 
+/**
+ * Drops the demo orders an earlier build seeded into this browser.
+ *
+ * Removing the seeder stops new browsers getting demo data, but does nothing
+ * for one that was already seeded — those ten records would sit in the queue
+ * forever. Runs once: the flag is cleared as part of the purge, so after the
+ * first read this is a single `getItem` returning null.
+ */
+function purgeLegacySeeds() {
+  try {
+    if (!localStorage.getItem(SEEDED_KEY)) return
+
+    const stored = JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]')
+    if (Array.isArray(stored)) {
+      localStorage.setItem(
+        ORDERS_KEY,
+        JSON.stringify(stored.filter((order) => !order?.seeded))
+      )
+    }
+
+    localStorage.removeItem(SEEDED_KEY)
+  } catch {
+    /* storage unavailable — nothing was seeded there either */
+  }
+}
+
 function readOrders() {
-  seedOnce()
+  purgeLegacySeeds()
   try {
     const raw = JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]')
     if (!Array.isArray(raw)) return []
     return raw.map(normalizeOrder).filter(Boolean).sort(byNewest)
   } catch {
     return []
-  }
-}
-
-/* --------------------------------------------------------------- demo seeds */
-
-/**
- * Demo content, in the spirit of review.service's SEED_REVIEWS: without it the
- * admin panel is an empty table on first load, which makes it impossible to
- * tell a working page from a broken one.
- *
- * Written once and then owned by the user — they are ordinary orders after
- * that, advanceable and cancellable like any other. `seeded: true` is kept
- * only so the UI can label them as demo data. Timestamps are relative to first
- * load, so the queue always looks like it belongs to the current shift.
- */
-const SEED_BLUEPRINTS = [
-  {
-    id: 'CN-8QK2ZP',
-    minutesAgo: 3,
-    status: ORDER_STATUS.pending,
-    customer: {
-      name: 'Ishita Raman',
-      phone: '98123 45671',
-      fulfilment: FULFILMENT.delivery,
-      address: '4B Rajpur Road, near Ekta Vihar',
-    },
-    lines: [
-      ['p2', 'Salted Caramel Latte', 'Large', 1, 260],
-      ['p7', 'Butter Croissant', null, 2, 140],
-    ],
-  },
-  {
-    id: 'CN-M4TR7C',
-    minutesAgo: 11,
-    status: ORDER_STATUS.pending,
-    customer: {
-      name: 'Devansh Bhatt',
-      phone: '90876 12234',
-      fulfilment: FULFILMENT.pickup,
-      address: null,
-    },
-    lines: [['p3', 'Cold Brew Nest', 'Regular', 2, 210]],
-  },
-  {
-    id: 'CN-VD91XB',
-    minutesAgo: 22,
-    status: ORDER_STATUS.preparing,
-    customer: {
-      name: 'Meera Kaushik',
-      phone: '99110 55408',
-      fulfilment: FULFILMENT.delivery,
-      address: '17 Maple Lane, second floor',
-    },
-    lines: [
-      ['p4', 'Mocha Green Matcha', 'Large', 1, 280],
-      ['p6', 'Cinnamon Chai Latte', 'Small', 1, 170],
-      ['p8', 'Almond Biscotti', null, 1, 110],
-    ],
-  },
-  {
-    id: 'CN-3JLW6H',
-    minutesAgo: 38,
-    status: ORDER_STATUS.ready,
-    customer: {
-      name: 'Rohan Iyer',
-      phone: '87654 33120',
-      fulfilment: FULFILMENT.pickup,
-      address: null,
-    },
-    lines: [['p1', 'Classic Cappuccino', 'Regular', 1, 180]],
-  },
-  {
-    id: 'CN-QP47DA',
-    minutesAgo: 95,
-    status: ORDER_STATUS.completed,
-    customer: {
-      name: 'Aarav Sharma',
-      phone: '98765 43210',
-      fulfilment: FULFILMENT.delivery,
-      address: '9 Old Market Square, flat 3',
-    },
-    placedBy: { id: 'u2', name: 'Aarav Sharma', email: 'user@cafenest.com' },
-    lines: [
-      ['p5', 'Hazelnut Flat White', 'Large', 2, 240],
-      ['p7', 'Butter Croissant', null, 1, 140],
-    ],
-  },
-  {
-    id: 'CN-ZT08KE',
-    minutesAgo: 160,
-    status: ORDER_STATUS.completed,
-    customer: {
-      name: 'Simran Kaur',
-      phone: '70123 99845',
-      fulfilment: FULFILMENT.pickup,
-      address: null,
-    },
-    lines: [['p6', 'Cinnamon Chai Latte', 'Regular', 3, 190]],
-  },
-  {
-    id: 'CN-LB52NR',
-    minutesAgo: 300,
-    status: ORDER_STATUS.cancelled,
-    customer: {
-      name: 'Tanvi Deshpande',
-      phone: '88990 21763',
-      fulfilment: FULFILMENT.delivery,
-      address: '22 Chakrata Road',
-    },
-    lines: [['p3', 'Cold Brew Nest', 'Large', 1, 250]],
-  },
-  {
-    id: 'CN-Y67FGS',
-    minutesAgo: 1500,
-    status: ORDER_STATUS.completed,
-    customer: {
-      name: 'Kabir Nanda',
-      phone: '96541 00238',
-      fulfilment: FULFILMENT.delivery,
-      address: '5 Sahastradhara Road',
-    },
-    lines: [
-      ['p1', 'Classic Cappuccino', 'Small', 2, 160],
-      ['p8', 'Almond Biscotti', null, 2, 110],
-    ],
-  },
-  {
-    id: 'CN-RA13WU',
-    minutesAgo: 2900,
-    status: ORDER_STATUS.completed,
-    customer: {
-      name: 'Nikhil Verma',
-      phone: '78450 66319',
-      fulfilment: FULFILMENT.pickup,
-      address: null,
-    },
-    lines: [['p2', 'Salted Caramel Latte', 'Regular', 1, 220]],
-  },
-  {
-    id: 'CN-HE29OM',
-    minutesAgo: 4400,
-    status: ORDER_STATUS.completed,
-    customer: {
-      name: 'Priya Menon',
-      phone: '93027 41158',
-      fulfilment: FULFILMENT.delivery,
-      address: '31 Ballupur Chowk',
-    },
-    lines: [
-      ['p4', 'Mocha Green Matcha', 'Regular', 2, 240],
-      ['p6', 'Cinnamon Chai Latte', 'Large', 1, 230],
-    ],
-  },
-]
-
-/** Six minutes between steps — long enough to read as a real kitchen pace. */
-const SEED_STEP_MS = 6 * 60 * 1000
-
-/**
- * Replays the lifecycle from `pending` up to `status`, so a seeded order has a
- * plausible audit trail rather than a single entry. Cancellations skip
- * straight from `pending`, which is where most real ones happen.
- */
-function buildSeedHistory(status, createdAt) {
-  const start = new Date(createdAt).getTime()
-  const chain = [ORDER_STATUS.pending]
-
-  if (status === ORDER_STATUS.cancelled) {
-    chain.push(ORDER_STATUS.cancelled)
-  } else {
-    let current = ORDER_STATUS.pending
-    while (current !== status && NEXT_STATUS[current]) {
-      current = NEXT_STATUS[current]
-      chain.push(current)
-    }
-  }
-
-  return chain.map((entry, index) => ({
-    status: entry,
-    at: new Date(start + index * SEED_STEP_MS).toISOString(),
-  }))
-}
-
-function buildSeedOrder(blueprint) {
-  const items = blueprint.lines.map(([productId, name, size, quantity, priceAtPurchase]) => ({
-    productId,
-    name,
-    size,
-    quantity,
-    priceAtPurchase,
-  }))
-
-  const subtotal = items.reduce((total, item) => total + item.priceAtPurchase * item.quantity, 0)
-  const createdAt = new Date(Date.now() - blueprint.minutesAgo * 60 * 1000).toISOString()
-
-  return {
-    id: blueprint.id,
-    status: blueprint.status,
-    createdAt,
-    customer: blueprint.customer,
-    placedBy: blueprint.placedBy ?? null,
-    bill: calculateBill(subtotal, blueprint.customer.fulfilment),
-    items,
-    statusHistory: buildSeedHistory(blueprint.status, createdAt),
-    seeded: true,
-  }
-}
-
-/**
- * Guarded by its own flag rather than by "is the order list empty", so an
- * admin who clears the queue on purpose does not get the demo orders back on
- * the next page load.
- */
-function seedOnce() {
-  try {
-    if (localStorage.getItem(SEEDED_KEY)) return
-    localStorage.setItem(SEEDED_KEY, '1')
-
-    const existing = JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]')
-    const safe = Array.isArray(existing) ? existing : []
-    const seeds = SEED_BLUEPRINTS.map(buildSeedOrder)
-
-    localStorage.setItem(
-      ORDERS_KEY,
-      JSON.stringify([...safe, ...seeds].sort(byNewest).slice(0, ORDER_LIMIT))
-    )
-  } catch {
-    /* storage unavailable — the panel just starts empty */
   }
 }
 

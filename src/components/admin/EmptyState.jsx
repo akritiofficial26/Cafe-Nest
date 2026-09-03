@@ -10,11 +10,11 @@ import React from 'react'
  */
 export default function EmptyState({ title, message, icon = 'cup', children }) {
   return (
-    <div className="rounded-[2rem] border border-dashed border-coffee/25 bg-cream-card/60 px-6 py-16 text-center">
-      <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-mocha-green/10 text-mocha-green">
+    <div className="rounded-2xl border border-dashed border-coffee/25 bg-cream-card/60 px-6 py-12 text-center">
+      <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-mocha-green/10 text-mocha-green">
         <svg
           viewBox="0 0 24 24"
-          className="h-7 w-7"
+          className="h-6 w-6"
           aria-hidden="true"
           fill="none"
           stroke="currentColor"
@@ -36,9 +36,9 @@ export default function EmptyState({ title, message, icon = 'cup', children }) {
           )}
         </svg>
       </div>
-      <h3 className="mb-2 font-display text-2xl text-espresso">{title}</h3>
-      <p className="mx-auto max-w-md text-sm leading-relaxed text-espresso-light/70">{message}</p>
-      {children && <div className="mt-6">{children}</div>}
+      <h3 className="mb-2 font-display text-lg text-espresso">{title}</h3>
+      <p className="mx-auto max-w-md text-[0.8rem] leading-relaxed text-espresso-light/70">{message}</p>
+      {children && <div className="mt-5">{children}</div>}
     </div>
   )
 }
