@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { DEMO_ACCOUNTS, ROLES } from '../services/auth.service'
+import { ROLES } from '../services/auth.service'
 import Button from '../components/ui/Button'
 import Input from '../components/ui/Input'
 import logoImg from '../assets/updated logo.png'
@@ -41,19 +41,13 @@ export default function Login() {
     setFormError('')
   }
 
-  function useDemo(account) {
-    setForm({ email: account.email, password: account.password })
-    setErrors({})
-    setFormError('')
-  }
-
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault()
     const found = validate(form)
     setErrors(found)
     if (Object.keys(found).length > 0) return
 
-    const result = signIn({ email: form.email, password: form.password })
+    const result = await signIn({ email: form.email, password: form.password })
     if (result.error) {
       setFormError(result.error)
       return
@@ -124,40 +118,6 @@ export default function Login() {
                 Sign in
               </Button>
             </form>
-            <div className="mt-8">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="h-px flex-1 bg-coffee/15" />
-                <span className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-espresso-light/55">
-                  Demo accounts
-                </span>
-                <span className="h-px flex-1 bg-coffee/15" />
-              </div>
-
-              <div className="grid gap-3 sm:grid-cols-2">
-                {DEMO_ACCOUNTS.map((account) => (
-                  <button
-                    key={account.email}
-                    type="button"
-                    onClick={() => useDemo(account)}
-                    className="rounded-2xl border border-coffee/20 bg-cream px-4 py-3 text-left transition-colors hover:border-mocha-green hover:bg-mocha-green/5"
-                  >
-                    <span className="block text-xs font-semibold uppercase tracking-[0.14em] text-mocha-green">
-                      {account.role === ROLES.admin ? 'Admin' : 'Customer'}
-                    </span>
-                    <span className="mt-1 block truncate text-xs text-espresso-light/75">
-                      {account.email}
-                    </span>
-                    <span className="block text-xs text-espresso-light/55">
-                      {account.password}
-                    </span>
-                  </button>
-                ))}
-              </div>
-
-              <p className="mt-4 text-center text-xs text-espresso-light/60">
-                Tap one to fill the form, then sign in.
-              </p>
-            </div>
 
             <p className="mt-7 text-center text-sm text-espresso-light/70">
               <Link to="/" className="font-semibold text-coffee-dark hover:underline">

@@ -9,9 +9,9 @@ import {
 const AuthContext = createContext(null)
 
 /**
- * Session state for the app. Mirrors CartContext's shape, but reads from
- * sessionStorage via auth.service rather than talking to storage directly —
- * so swapping in a real API only touches the service.
+ * Session state for the app. Mirrors CartContext's shape, but reads the cached
+ * user profile via auth.service rather than talking to storage directly —
+ * so wiring the backend API only touches the service.
  */
 export function AuthProvider({ children }) {
   // Seeded from sessionStorage so a refresh (or a direct hit on /admin) keeps
@@ -24,9 +24,9 @@ export function AuthProvider({ children }) {
       isAuthenticated: Boolean(user),
       isAdmin: user?.role === ROLES.admin,
 
-      /** Returns `{ user }` or `{ error }` — the form renders the error. */
-      signIn(credentials) {
-        const result = loginRequest(credentials)
+      /** Resolves to `{ user }` or `{ error }` — the form renders the error. */
+      async signIn(credentials) {
+        const result = await loginRequest(credentials)
         if (result.user) setUser(result.user)
         return result
       },
