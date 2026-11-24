@@ -18,6 +18,7 @@ import OrderConfirmation from './pages/OrderConfirmation'
 import Feedback from './pages/Feedback'
 import Contact from './pages/Contact'
 import Login from './pages/Login'
+import Register from './pages/Register'
 import AdminLayout from './pages/admin/AdminLayout'
 import AdminOverview from './pages/admin/AdminOverview'
 import AdminOrders from './pages/admin/AdminOrders'
@@ -26,12 +27,12 @@ import AdminOrderDetail from './pages/admin/AdminOrderDetail'
 import NotFound from './pages/NotFound'
 
 /**
- * The site is login-gated. Only three things are reachable while signed out:
- * the Home landing page, the login screen, and the 404 — everything else
- * bounces to /login and comes back after signing in.
+ * The site is login-gated. Only these are reachable while signed out: the
+ * Home landing page, the login and register screens, and the 404 — everything
+ * else bounces to /login and comes back after signing in.
  *
  * Three route groups:
- *   /login  — standalone, no site chrome
+ *   /login, /register — standalone, no site chrome
  *   site    — Navbar + Footer; Home public, the rest behind RequireAuth
  *   /admin  — its own shell (AdminLayout), admins only
  */
@@ -41,8 +42,9 @@ export default function App() {
       <CartProvider>
         <ScrollToTop />
         <Routes>
-          {/* Login — full screen, outside the site chrome. */}
+          {/* Login / Register — full screen, outside the site chrome. */}
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
           {/* Café site. */}
           <Route element={<SiteLayout />}>

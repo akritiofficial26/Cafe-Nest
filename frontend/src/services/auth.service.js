@@ -37,6 +37,14 @@ export async function login({ email, password }) {
 }
 
 
+/**
+ * Creates a new customer account. Placeholder until the backend exists —
+ * resolves to `{ user }` or `{ error }`, matching `login`.
+ */
+export async function register({ name, email, password }) {
+  return { error: 'Registration is not available yet. Please try again later.' }
+}
+
 export function logout() {
   try {
     sessionStorage.removeItem(SESSION_KEY)

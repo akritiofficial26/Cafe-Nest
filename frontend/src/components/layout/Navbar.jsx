@@ -109,12 +109,20 @@ export default function Navbar() {
               </button>
             </div>
           ) : (
-            <NavLink
-              to="/login"
-              className="px-5 py-2 rounded-full bg-mocha-green text-cream text-sm font-semibold tracking-[0.12em] hover:bg-mocha-green-dark transition-colors"
-            >
-              Log in
-            </NavLink>
+            <div className="flex items-center gap-3">
+              <NavLink
+                to="/login"
+                className="px-5 py-2 rounded-full border border-coffee/40 text-espresso text-sm font-semibold tracking-[0.12em] hover:bg-coffee hover:text-cream hover:border-coffee transition-colors"
+              >
+                Log in
+              </NavLink>
+              <NavLink
+                to="/register"
+                className="px-5 py-2 rounded-full bg-mocha-green text-cream text-sm font-semibold tracking-[0.12em] hover:bg-mocha-green-dark transition-colors"
+              >
+                Sign up
+              </NavLink>
+            </div>
           )}
         </div>
 
@@ -210,13 +218,22 @@ export default function Navbar() {
               </div>
             </>
           ) : (
-            <NavLink
-              to="/login"
-              onClick={closeMenu}
-              className="mt-4 rounded-full bg-mocha-green px-5 py-3 text-center text-base font-semibold text-cream hover:bg-mocha-green-dark transition-colors"
-            >
-              Log in
-            </NavLink>
+            <div className="mt-4 grid grid-cols-2 gap-3">
+              <NavLink
+                to="/login"
+                onClick={closeMenu}
+                className="rounded-full border border-coffee/40 px-5 py-3 text-center text-base font-semibold text-espresso hover:bg-coffee hover:text-cream hover:border-coffee transition-colors"
+              >
+                Log in
+              </NavLink>
+              <NavLink
+                to="/register"
+                onClick={closeMenu}
+                className="rounded-full bg-mocha-green px-5 py-3 text-center text-base font-semibold text-cream hover:bg-mocha-green-dark transition-colors"
+              >
+                Sign up
+              </NavLink>
+            </div>
           )}
         </div>
       )}

@@ -4,7 +4,8 @@ import { useAuth } from '../context/AuthContext'
 import { ROLES } from '../services/auth.service'
 import Button from '../components/ui/Button'
 import Input from '../components/ui/Input'
-import logoImg from '../assets/updated logo.png'
+import AuthLayout from '../components/auth/AuthLayout'
+import PasswordInput from '../components/auth/PasswordInput'
 
 function validate({ email, password }) {
   const errors = {}
@@ -29,7 +30,7 @@ export default function Login() {
   const [form, setForm] = useState({ email: '', password: '' })
   const [errors, setErrors] = useState({})
   const [formError, setFormError] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
   const from = location.state?.from
 
@@ -47,7 +48,9 @@ export default function Login() {
     setErrors(found)
     if (Object.keys(found).length > 0) return
 
+    setSubmitting(true)
     const result = await signIn({ email: form.email, password: form.password })
+    setSubmitting(false)
     if (result.error) {
       setFormError(result.error)
       return
@@ -57,76 +60,70 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-cream flex flex-col">
-
-
-      <div className="flex flex-1 items-center justify-center px-5 py-8 sm:px-8">
-        <div className="w-full max-w-xl">
-          {/* Warm-up copy — keeps the page from reading as a bare form. */}
-          
-          <div className="mx-auto w-full max-w-[28rem] rounded-[2rem] border border-coffee/10 bg-cream-card p-7 shadow-sm sm:p-8">
-            <div className="mb-7 text-center">
-              <h2 className="font-display text-3xl text-espresso">Welcome back</h2>
-              <p className="text-sm text-espresso-light/70 mt-2">
-                Sign in to your CafeNest account.
-              </p>
-            </div>
-
-            <form onSubmit={handleSubmit} noValidate className="space-y-5">
-              <Input
-                id="email"
-                label="Email"
-                type="email"
-                value={form.email}
-                onChange={(e) => update('email', e.target.value)}
-                error={errors.email}
-                placeholder="you@example.com"
-                autoComplete="email"
-              />
-
-              <div className="relative">
-                <Input
-                  id="password"
-                  label="Password"
-                  type={showPassword ? 'text' : 'password'}
-                  value={form.password}
-                  onChange={(e) => update('password', e.target.value)}
-                  error={errors.password}
-                  placeholder="Your password"
-                  autoComplete="current-password"
-                  className="[&_input]:pr-16"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((shown) => !shown)}
-                  className="absolute right-4 top-[2.4rem] text-xs font-semibold uppercase tracking-[0.12em] text-espresso-light/60 hover:text-coffee-dark transition-colors"
-                >
-                  {showPassword ? 'Hide' : 'Show'}
-                </button>
-              </div>
-
-              {formError && (
-                <p
-                  role="alert"
-                  className="rounded-2xl border border-coffee-dark/30 bg-coffee/10 px-4 py-3 text-sm text-coffee-dark"
-                >
-                  {formError}
-                </p>
-              )}
-
-              <Button type="submit" variant="green" size="block">
-                Sign in
-              </Button>
-            </form>
-
-            <p className="mt-7 text-center text-sm text-espresso-light/70">
-              <Link to="/" className="font-semibold text-coffee-dark hover:underline">
-                Back to home
-              </Link>
-            </p>
-          </div>
-        </div>
+    <AuthLayout
+      imageSide="left"
+      eyebrow="Freshly brewed, every day"
+      quote="Your favourite cup is waiting. Pull up a chair."
+    >
+      <div className="mb-6">
+        <h1 className="font-display text-3xl text-espresso">Welcome back</h1>
+        <p className="mt-2 text-sm text-espresso-light/70">
+          Sign in to your CafeNest account to order, track and review.
+        </p>
       </div>
-    </div>
+
+      <form onSubmit={handleSubmit} noValidate className="space-y-4">
+        <Input
+          id="email"
+          label="Email"
+          type="email"
+          value={form.email}
+          onChange={(e) => update('email', e.target.value)}
+          error={errors.email}
+          placeholder="you@example.com"
+          autoComplete="email"
+        />
+
+        <PasswordInput
+          id="password"
+          label="Password"
+          value={form.password}
+          onChange={(e) => update('password', e.target.value)}
+          error={errors.password}
+          placeholder="Your password"
+          autoComplete="current-password"
+        />
+
+        {formError && (
+          <p
+            role="alert"
+            className="rounded-2xl border border-coffee-dark/30 bg-coffee/10 px-4 py-3 text-sm text-coffee-dark"
+          >
+            {formError}
+          </p>
+        )}
+
+        <Button type="submit" variant="green" size="block" disabled={submitting}>
+          {submitting ? 'Signing in…' : 'Sign in'}
+        </Button>
+      </form>
+
+      <p className="mt-6 text-center text-sm text-espresso-light/70">
+        Don&apos;t have an account?{' '}
+        <Link
+          to="/register"
+          state={location.state}
+          className="font-semibold text-coffee-dark hover:underline"
+        >
+          Create one
+        </Link>
+      </p>
+
+      <p className="mt-3 text-center text-sm">
+        <Link to="/" className="text-espresso-light/60 hover:text-coffee-dark transition-colors">
+          ← Back to home
+        </Link>
+      </p>
+    </AuthLayout>
   )
 }
